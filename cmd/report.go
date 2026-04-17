@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/OWNER/triage/internal/cli"
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/cli"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 // newReportCmd implements `triage report namespace <ns>` — same as

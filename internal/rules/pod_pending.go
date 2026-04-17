@@ -8,8 +8,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	eventsv1 "k8s.io/api/events/v1"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
 )
 
 func init() {

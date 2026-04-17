@@ -8,7 +8,7 @@ package main
 import (
 	"os"
 
-	"github.com/OWNER/triage/cmd"
+	"github.com/khvedela/triage/cmd"
 )
 
 func main() {

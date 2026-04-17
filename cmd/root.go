@@ -17,9 +17,9 @@ import (
 	"github.com/spf13/viper"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/OWNER/triage/internal/cli"
-	"github.com/OWNER/triage/internal/config"
-	"github.com/OWNER/triage/internal/logging"
+	"github.com/khvedela/triage/internal/cli"
+	"github.com/khvedela/triage/internal/config"
+	"github.com/khvedela/triage/internal/logging"
 )
 
 // Version metadata. Overridden via -ldflags at build time.

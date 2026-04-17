@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/output"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/output"
 )
 
 var update = flag.Bool("update", false, "regenerate golden files")

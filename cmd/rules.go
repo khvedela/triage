@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/rules"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/rules"
 )
 
 func newRulesCmd() *cobra.Command {

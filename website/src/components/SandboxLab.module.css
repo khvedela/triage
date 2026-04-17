@@ -1,0 +1,187 @@
+.shell {
+  display: grid;
+  gap: var(--triage-space-6);
+  padding-bottom: var(--triage-space-6);
+}
+
+.header {
+  display: grid;
+  gap: var(--triage-space-4);
+  max-width: 68rem;
+}
+
+.scenarioRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--triage-space-3);
+  border-bottom: 1px solid var(--triage-border-subtle);
+  padding-bottom: var(--triage-space-3);
+}
+
+.scenarioButton {
+  display: grid;
+  gap: 0.75rem;
+  text-align: left;
+  padding: 0.9rem;
+  border-radius: var(--triage-radius-m);
+  border: 1px solid var(--triage-border-subtle);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.scenarioButton:hover,
+.scenarioButton:focus-visible {
+  border-color: var(--triage-border-strong);
+  background: var(--triage-surface-2);
+}
+
+.scenarioButtonActive {
+  background: var(--triage-surface-2);
+  border-color: color-mix(in srgb, var(--triage-accent) 44%, var(--triage-border-strong));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: var(--triage-space-4);
+}
+
+.column {
+  display: grid;
+  gap: var(--triage-space-4);
+}
+
+.panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+  border-radius: var(--triage-radius-l);
+  border: 1px solid var(--triage-border-subtle);
+  background: var(--triage-surface-1);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--triage-text-soft);
+  margin: 0;
+}
+
+.panel h2,
+.panel h3,
+.panel h4 {
+  margin: 0;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.scenarioTopRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.scenarioSummary {
+  margin: 0;
+  color: var(--triage-text-muted);
+}
+
+.yamlArea {
+  width: 100%;
+  min-height: 28rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: var(--triage-radius-m);
+  background: var(--triage-ink);
+  color: var(--triage-ink-contrast);
+  padding: 1rem;
+  resize: vertical;
+  font: inherit;
+  font-family: var(--ifm-font-family-monospace);
+  line-height: 1.55;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--triage-ink-contrast) 3%, transparent);
+}
+
+.signalList,
+.whyList,
+.commandList {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--triage-text-muted);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tabButton {
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--triage-radius-pill);
+  border: 1px solid var(--triage-border-subtle);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.tabButton:hover {
+  border-color: var(--triage-border-strong);
+  background: var(--triage-surface-2);
+}
+
+.tabButtonActive {
+  border-color: color-mix(in srgb, var(--triage-accent) 44%, var(--triage-border-strong));
+  background: color-mix(in srgb, var(--triage-accent) 12%, var(--triage-surface-2));
+}
+
+.copyButton {
+  border: 1px solid var(--triage-border-subtle);
+  border-radius: var(--triage-radius-pill);
+  background: transparent;
+  color: inherit;
+  padding: 0.52rem 0.85rem;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.copyButton:hover {
+  border-color: var(--triage-border-strong);
+  background: var(--triage-surface-2);
+}
+
+.statusNote {
+  color: var(--triage-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 996px) {
+  .scenarioRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .scenarioRail {
+    grid-template-columns: 1fr;
+  }
+
+  .yamlArea {
+    min-height: 20rem;
+  }
+}

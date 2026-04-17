@@ -8,8 +8,7 @@ Security fixes are applied to the latest minor release on `main`. Pre-1.0, we do
 
 **Do not** open a public issue for security problems. Instead:
 
-- Use GitHub's [private security advisories](https://github.com/OWNER/triage/security/advisories/new) (preferred), or
-- Email the maintainers at `security@triage.example` (replace with actual contact before first release).
+- Use GitHub's [private security advisories](https://github.com/khvedela/triage/security/advisories/new).
 
 Please include:
 
@@ -18,7 +17,7 @@ Please include:
 - Affected versions
 - Any proof-of-concept code (as attachment, not inline)
 
-We will acknowledge receipt within 3 business days and aim to publish a fix within 30 days for critical issues.
+We aim to acknowledge receipt within 3 business days and publish a fix within 30 days for critical issues when the report is actionable.
 
 ## Scope
 

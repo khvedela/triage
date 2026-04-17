@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
 )
 
 func init() { Register(&accessRBAC{}) }

@@ -10,8 +10,8 @@ import (
 	"github.com/spf13/viper"
 	"sigs.k8s.io/yaml"
 
-	"github.com/OWNER/triage/internal/cli"
-	"github.com/OWNER/triage/internal/config"
+	"github.com/khvedela/triage/internal/cli"
+	"github.com/khvedela/triage/internal/config"
 )
 
 func newConfigCmd(_ *viper.Viper) *cobra.Command {

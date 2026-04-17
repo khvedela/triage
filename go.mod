@@ -1,4 +1,4 @@
-module github.com/OWNER/triage
+module github.com/khvedela/triage
 
 go 1.22.0
 

@@ -1,0 +1,147 @@
+.page {
+  background: transparent;
+}
+
+.hero {
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0 2.5rem;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--triage-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(2.8rem, 7vw, 5.1rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+  max-width: 11.5ch;
+}
+
+.heroBody {
+  margin: 1.25rem 0 0;
+  max-width: 58ch;
+  color: var(--triage-text-muted);
+  font-size: 1.1rem;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.6rem;
+}
+
+.metaCard {
+  display: none;
+}
+
+.metaStat {
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.section {
+  padding: 2.8rem 0;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 54rem;
+  margin-bottom: 1.6rem;
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: var(--triage-text-muted);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.benefitCard,
+.trustCard,
+.architectureCard {
+  display: grid;
+  gap: 0.95rem;
+  padding: 0.75rem 0;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--triage-border-subtle);
+  background: transparent;
+  box-shadow: none;
+}
+
+.benefitCard p,
+.trustCard p,
+.architectureCard p {
+  color: var(--triage-text-muted);
+  margin-bottom: 0;
+}
+
+.installBand {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.heroRail {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.heroSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.1rem;
+  margin-top: 1.3rem;
+  color: var(--triage-text-soft);
+  font-size: 0.95rem;
+}
+
+.heroNote {
+  margin: 0;
+  color: var(--triage-text-muted);
+}
+
+.signalRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sectionShell {
+  padding: 0;
+}
+
+@media (max-width: 996px) {
+  .heroGrid,
+  .installBand,
+  .cardGrid,
+  .trustGrid {
+    grid-template-columns: 1fr;
+  }
+}

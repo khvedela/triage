@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 // MarkdownRenderer emits an embeddable markdown report. Useful for pasting

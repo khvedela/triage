@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 func init() { Register(&nsWarningEvents{}) }

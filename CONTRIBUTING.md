@@ -30,7 +30,7 @@ Prerequisites:
 Clone and build:
 
 ```sh
-git clone https://github.com/OWNER/triage
+git clone https://github.com/khvedela/triage
 cd triage
 make build       # builds ./bin/triage
 make test        # unit tests
@@ -76,7 +76,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/OWNER/triage/internal/findings"
+    "github.com/khvedela/triage/internal/findings"
 )
 
 func init() { Register(&podBadCommand{}) }
@@ -173,6 +173,22 @@ Review the diffs; commit when you're satisfied.
 5. Open a PR. Describe the problem being solved and how you verified the fix.
 
 We aim to respond to PRs within a week. Please be patient with reviewers.
+
+## Docs site
+
+The GitHub Pages site lives under `website/`.
+
+```sh
+cd website
+npm install
+npm run start
+```
+
+Build the static output with:
+
+```sh
+npm run build
+```
 
 ## Releasing (maintainers)
 

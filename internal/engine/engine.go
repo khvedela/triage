@@ -13,9 +13,9 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
-	"github.com/OWNER/triage/internal/rules"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
+	"github.com/khvedela/triage/internal/rules"
 )
 
 // Options are the per-run engine knobs.

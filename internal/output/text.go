@@ -7,7 +7,7 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 // TextRenderer renders a Report to an ANSI terminal.

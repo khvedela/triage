@@ -26,7 +26,7 @@ linters-settings:
   gocyclo:
     min-complexity: 20
   goimports:
-    local-prefixes: github.com/OWNER/triage
+    local-prefixes: github.com/khvedela/triage
   revive:
     rules:
       - name: exported

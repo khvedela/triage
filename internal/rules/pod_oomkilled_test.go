@@ -8,8 +8,8 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/rules"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/rules"
 )
 
 func oomPod(ns, name, containerName string) *corev1.Pod {

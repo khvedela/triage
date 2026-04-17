@@ -7,10 +7,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/OWNER/triage/internal/engine"
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
-	"github.com/OWNER/triage/internal/output"
+	"github.com/khvedela/triage/internal/engine"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
+	"github.com/khvedela/triage/internal/output"
 )
 
 // RunDiagnosis is the shared orchestration used by every diagnosis command

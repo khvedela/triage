@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/OWNER/triage/internal/engine"
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/engine"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 func makeF(ruleID string, sev findings.Severity, conf findings.Confidence) findings.Finding {

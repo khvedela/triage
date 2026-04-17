@@ -3,7 +3,7 @@ package engine
 import (
 	"sort"
 
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 // Rank sorts findings from most to least important and returns a new slice.

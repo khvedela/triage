@@ -26,3 +26,8 @@ go.work.sum
 # Release / CI scratch
 /tmp/
 /.cache/
+
+# Website artifacts
+/website/node_modules/
+/website/build/
+/website/.docusaurus/

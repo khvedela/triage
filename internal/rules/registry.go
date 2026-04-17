@@ -11,8 +11,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
 )
 
 // Rule is the interface every diagnosis rule implements.

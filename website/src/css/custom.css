@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+:root {
+  --triage-space-1: 0.25rem;
+  --triage-space-2: 0.5rem;
+  --triage-space-3: 0.75rem;
+  --triage-space-4: 1rem;
+  --triage-space-5: 1.5rem;
+  --triage-space-6: 2rem;
+  --triage-space-7: 3rem;
+  --triage-radius-s: 0.375rem;
+  --triage-radius-m: 0.5rem;
+  --triage-radius-l: 0.75rem;
+  --triage-radius-xl: 0.875rem;
+  --triage-radius-pill: 0.625rem;
+  --triage-shadow-s: 0 8px 24px rgba(15, 23, 42, 0.04);
+  --triage-shadow-m: 0 16px 40px rgba(15, 23, 42, 0.06);
+  --triage-shadow-l: 0 24px 64px rgba(15, 23, 42, 0.12);
+  --triage-accent: #1a73e8;
+  --triage-highlight: #00acc1;
+  --triage-canvas: #ffffff;
+  --triage-canvas-soft: #f7f9fc;
+  --triage-surface-0: #ffffff;
+  --triage-surface-1: #ffffff;
+  --triage-surface-2: #f8fafc;
+  --triage-border-subtle: rgba(15, 23, 42, 0.08);
+  --triage-border-strong: rgba(26, 115, 232, 0.2);
+  --triage-text-strong: #0f1728;
+  --triage-text-muted: #475569;
+  --triage-text-soft: #64748b;
+  --triage-ink: #0d1117;
+  --triage-ink-contrast: #edf2f7;
+  --ifm-color-primary: #1a73e8;
+  --ifm-color-primary-dark: #1766cf;
+  --ifm-color-primary-darker: #155fbf;
+  --ifm-color-primary-darkest: #114e9e;
+  --ifm-color-primary-light: #2e80ea;
+  --ifm-color-primary-lighter: #3b88eb;
+  --ifm-color-primary-lightest: #5b9bf0;
+  --ifm-background-color: var(--triage-canvas);
+  --ifm-background-surface-color: var(--triage-surface-1);
+  --ifm-navbar-background-color: color-mix(in srgb, var(--triage-canvas) 82%, transparent);
+  --ifm-footer-background-color: #ecf1fa;
+  --ifm-heading-color: var(--triage-text-strong);
+  --ifm-font-color-base: var(--triage-text-muted);
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-code-font-size: 92%;
+  --ifm-font-family-base: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+  --ifm-font-family-monospace: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --ifm-line-height-base: 1.65;
+  --ifm-h1-font-size: 3.6rem;
+  --ifm-h2-font-size: 2.35rem;
+  --ifm-h3-font-size: 1.5rem;
+  --ifm-heading-font-family: "Space Grotesk", "Avenir Next", sans-serif;
+  --ifm-heading-font-weight: 600;
+  --ifm-global-radius: var(--triage-radius-l);
+}
+
+html[data-theme="dark"] {
+  --triage-accent: #7fb4ff;
+  --triage-highlight: #6ee7d8;
+  --triage-canvas: #0d1117;
+  --triage-canvas-soft: #111823;
+  --triage-surface-0: #111827;
+  --triage-surface-1: #111827;
+  --triage-surface-2: #172033;
+  --triage-border-subtle: rgba(255, 255, 255, 0.08);
+  --triage-border-strong: rgba(127, 180, 255, 0.28);
+  --triage-text-strong: #f5f7fb;
+  --triage-text-muted: #b4bfce;
+  --triage-text-soft: #8fa0b6;
+  --triage-ink: #0a0f17;
+  --triage-ink-contrast: #eef3fb;
+  --triage-shadow-s: 0 16px 40px rgba(0, 0, 0, 0.24);
+  --triage-shadow-m: 0 28px 76px rgba(0, 0, 0, 0.3);
+  --triage-shadow-l: 0 40px 110px rgba(0, 0, 0, 0.42);
+  --ifm-background-color: var(--triage-canvas);
+  --ifm-background-surface-color: var(--triage-surface-1);
+  --ifm-navbar-background-color: color-mix(in srgb, var(--triage-canvas) 84%, transparent);
+  --ifm-footer-background-color: #091018;
+  --ifm-heading-color: var(--triage-text-strong);
+  --ifm-font-color-base: var(--triage-text-muted);
+  --ifm-link-color: var(--triage-accent);
+}
+
+body {
+  background: var(--triage-canvas);
+  color: var(--ifm-font-color-base);
+}
+
+.main-wrapper {
+  background: linear-gradient(180deg, var(--triage-canvas) 0%, var(--triage-canvas-soft) 100%);
+}
+
+.navbar {
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--triage-border-subtle);
+  box-shadow: none;
+}
+
+.navbar__brand {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navbar__link,
+.menu__link {
+  font-weight: 500;
+}
+
+.footer {
+  border-top: 1px solid var(--triage-border-subtle);
+}
+
+.button.button--primary {
+  color: white;
+  font-weight: 600;
+  border-radius: var(--triage-radius-m);
+  box-shadow: none;
+}
+
+.button.button--secondary,
+.button.button--outline.button--secondary {
+  border-color: var(--triage-border-subtle);
+  color: var(--triage-text-strong);
+  border-radius: var(--triage-radius-m);
+  background: var(--triage-surface-1);
+}
+
+.theme-doc-markdown {
+  max-width: 54rem;
+}
+
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3 {
+  letter-spacing: -0.03em;
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2.5rem;
+}
+
+.theme-doc-markdown p,
+.theme-doc-markdown li {
+  color: var(--triage-text-muted);
+}
+
+.theme-doc-markdown code,
+code {
+  border: 1px solid var(--triage-border-subtle);
+  background: color-mix(in srgb, var(--triage-surface-2) 70%, transparent);
+}
+
+pre code {
+  border: none;
+  background: transparent;
+}
+
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--triage-border-subtle);
+}
+
+.menu__link--active {
+  color: var(--ifm-color-primary);
+}
+
+.menu__list-item-collapsible,
+.menu__link {
+  border-radius: var(--triage-radius-s);
+}
+
+.pagination-nav__link {
+  border-radius: var(--triage-radius-m);
+  border-color: var(--triage-border-subtle);
+  background: var(--triage-surface-1);
+  box-shadow: none;
+}
+
+.table-of-contents__link--active {
+  color: var(--triage-accent);
+}
+
+.alert {
+  border-radius: var(--triage-radius-m);
+}
+
+.triage-inline-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.triage-muted {
+  color: var(--triage-text-muted);
+}
+
+.triage-no-margin {
+  margin: 0;
+}
+
+.theme-doc-toc-mobile,
+.theme-doc-sidebar-menu {
+  padding-top: 0.5rem;
+}
+
+.navbar__toggle,
+.clean-btn {
+  border-radius: var(--triage-radius-s);
+}
+
+@media (max-width: 996px) {
+  .theme-doc-markdown {
+    max-width: 100%;
+  }
+}

@@ -8,11 +8,11 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/rules"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/rules"
 
 	// Import all rule packages to trigger init() registration.
-	_ "github.com/OWNER/triage/internal/rules"
+	_ "github.com/khvedela/triage/internal/rules"
 )
 
 func main() {

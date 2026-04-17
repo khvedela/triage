@@ -1,10 +1,10 @@
 # triage — Kubernetes diagnostic CLI
-# https://github.com/OWNER/triage
+# https://github.com/khvedela/triage
 
 # -----------------------------------------------------------------------------
 # Variables
 # -----------------------------------------------------------------------------
-MODULE        := github.com/OWNER/triage
+MODULE        := github.com/khvedela/triage
 BIN_DIR       := bin
 BINARY        := $(BIN_DIR)/triage
 PLUGIN_BINARY := $(BIN_DIR)/kubectl-triage
@@ -84,6 +84,18 @@ docgen: build ## Regenerate docs/rules.md from rule registry
 .PHONY: snapshot
 snapshot: ## Dry-run release with goreleaser
 	goreleaser release --snapshot --clean
+
+.PHONY: site-install
+site-install: ## Install website dependencies
+	cd website && npm install
+
+.PHONY: site-dev
+site-dev: ## Run the Docusaurus dev server
+	cd website && npm run start
+
+.PHONY: site-build
+site-build: ## Build the static docs site
+	cd website && npm run build
 
 .PHONY: clean
 clean: ## Remove build artifacts

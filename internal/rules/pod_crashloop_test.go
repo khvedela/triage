@@ -8,9 +8,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/OWNER/triage/internal/findings"
-	"github.com/OWNER/triage/internal/kube"
-	"github.com/OWNER/triage/internal/rules"
+	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/triage/internal/kube"
+	"github.com/khvedela/triage/internal/rules"
 )
 
 // newPodRC builds a minimal RuleContext backed by an in-memory fake client

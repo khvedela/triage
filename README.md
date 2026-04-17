@@ -2,11 +2,14 @@
 
 > A kubectl-native diagnostic CLI that turns broken Kubernetes workload symptoms into ranked root-cause findings, evidence, and the exact next command to run.
 
-[![CI](https://github.com/OWNER/triage/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/triage/actions/workflows/ci.yml)
+[![CI](https://github.com/khvedela/triage/actions/workflows/ci.yml/badge.svg)](https://github.com/khvedela/triage/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Go Report](https://goreportcard.com/badge/github.com/OWNER/triage)](https://goreportcard.com/report/github.com/OWNER/triage)
+[![Go Report](https://goreportcard.com/badge/github.com/khvedela/triage)](https://goreportcard.com/report/github.com/khvedela/triage)
 
 **`triage` is not another wrapper around `kubectl describe`.** It's a rule-based diagnosis engine that cross-references pod status, events, owner refs, services, endpoints, PVCs, and RBAC in one pass and tells you *what is broken*, *why*, and *what to do next* — in under two seconds.
+
+Docs website: <https://khvedela.github.io/triage/>  
+Interactive sandbox: <https://khvedela.github.io/triage/sandbox>
 
 ---
 
@@ -39,26 +42,22 @@ kubectl get svc,endpoints ...
 
 ## Install
 
-### Homebrew *(coming soon)*
+### Homebrew
 
-```sh
-brew install OWNER/tap/triage
-```
+Not published yet.
 
-### Krew *(Kubernetes plugin manager — coming soon)*
+### Krew
 
-```sh
-kubectl krew install triage
-```
+Manifest is in-repo, but public Krew index publication is not live yet.
 
 ### Binary download
 
-Grab a prebuilt binary from [Releases](https://github.com/OWNER/triage/releases) and drop it on your `$PATH`.
+Grab a prebuilt binary from [Releases](https://github.com/khvedela/triage/releases) and drop it on your `$PATH`.
 
 ### From source
 
 ```sh
-go install github.com/OWNER/triage@latest
+go install github.com/khvedela/triage@latest
 ```
 
 ### As a kubectl plugin
@@ -140,7 +139,7 @@ triage report namespace prod > triage-report.md
 | `triage completion {shell}`       | Shell completion script                                   |
 | `triage version`                  | Print version info                                        |
 
-See [docs/commands.md](docs/commands.md) for full reference.
+See [docs/commands.md](docs/commands.md) for the repo copy, or browse the hosted docs at <https://khvedela.github.io/triage/docs/commands>.
 
 ---
 
@@ -182,7 +181,7 @@ Sample categories:
 - **Rollout / Controller** — stuck deployment rollouts
 - **Resource Pressure** — node NotReady, Memory/Disk/PID pressure
 
-Full list: [docs/rules.md](docs/rules.md). Want to add a rule? See [CONTRIBUTING.md](CONTRIBUTING.md).
+Full list: [docs/rules.md](docs/rules.md). Hosted reference: <https://khvedela.github.io/triage/docs/rules>. Want to add a rule? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -206,7 +205,7 @@ namespaces:
   exclude: [kube-system, kube-public]
 ```
 
-All keys are also overridable via environment variables prefixed `TRIAGE_` (e.g. `TRIAGE_OUTPUT=json`). See [docs/configuration.md](docs/configuration.md).
+All keys are also overridable via environment variables prefixed `TRIAGE_` (e.g. `TRIAGE_OUTPUT=json`). See [docs/configuration.md](docs/configuration.md) or <https://khvedela.github.io/triage/docs/configuration>.
 
 ---
 
@@ -225,13 +224,13 @@ Longer-term:
 - CRD-aware rules (Istio, cert-manager, Argo Rollouts)
 - Optional LLM-assisted explainer (pluggable, off by default)
 
-See [docs/roadmap.md](docs/roadmap.md).
+See [docs/roadmap.md](docs/roadmap.md) or <https://khvedela.github.io/triage/docs/roadmap>.
 
 ---
 
 ## Contributing
 
-Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to build, test, and add rules. Security issues: see [SECURITY.md](SECURITY.md).
+Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to build, test, and add rules. Security issues: see [SECURITY.md](SECURITY.md). For the presentable docs and sandbox experience, use <https://khvedela.github.io/triage/>.
 
 ## License
 

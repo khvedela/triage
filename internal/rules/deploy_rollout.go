@@ -6,7 +6,7 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 
-	"github.com/OWNER/triage/internal/findings"
+	"github.com/khvedela/triage/internal/findings"
 )
 
 func init() {
