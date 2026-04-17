@@ -60,7 +60,7 @@ sboms:
 
 release:
   github:
-    owner: OWNER
+    owner: khvedela
     name: triage
   draft: false
   prerelease: auto
