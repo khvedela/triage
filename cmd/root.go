@@ -34,33 +34,23 @@ func Execute() int {
 	root := NewRootCmd()
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	if err := root.ExecuteContext(ctx); err != nil {
-		// Cobra already prints the error; here we distinguish usage errors
-		// (bad flag/args) from actual runtime errors. Cobra doesn't give us
-		// that cleanly, so we treat anything surfacing here as a usage error.
+	root.SetContext(context.WithValue(ctx, rootStateKey{}, &rootState{}))
+	if err := root.ExecuteContext(root.Context()); err != nil {
 		return cli.ExitUsage
 	}
-	// Subcommands set their exit code explicitly via cmd.SetContext + a
-	// dedicated "exit code" value key. The diagnosis commands write the code
-	// on the shared state and we read it here.
 	return readExitCode(root)
 }
 
 // rootState carries the chosen exit code from subcommands up to Execute.
-type rootState struct {
-	exitCode int
-}
-
+type rootState struct{ exitCode int }
 type rootStateKey struct{}
 
 // setExitCode records the subcommand's exit code on the command tree.
 func setExitCode(cmd *cobra.Command, code int) {
-	root := cmd.Root()
-	st, ok := root.Context().Value(rootStateKey{}).(*rootState)
-	if !ok || st == nil {
-		return
+	st, ok := cmd.Root().Context().Value(rootStateKey{}).(*rootState)
+	if ok && st != nil {
+		st.exitCode = code
 	}
-	st.exitCode = code
 }
 
 func readExitCode(root *cobra.Command) int {
@@ -76,9 +66,23 @@ func readExitCode(root *cobra.Command) int {
 
 // NewRootCmd builds the root command. Exposed for tests.
 func NewRootCmd() *cobra.Command {
-	flags := rootFlags{}
-	kubeFlags := genericclioptions.NewConfigFlags(true)
 	v := viper.New()
+	kubeFlags := genericclioptions.NewConfigFlags(true)
+
+	// rootFlags holds the pflag destination variables.
+	var (
+		output         string
+		verbose        bool
+		debug          bool
+		noColor        bool
+		maxFindings    int
+		severityMin    string
+		confidenceMin  string
+		includeEvents  bool
+		includeRelated bool
+		timeout        time.Duration
+		configPath     string
+	)
 
 	root := &cobra.Command{
 		Use:           rootUse(),
@@ -88,37 +92,28 @@ func NewRootCmd() *cobra.Command {
 		SilenceErrors: false,
 		Version:       fmt.Sprintf("%s (commit %s, built %s)", version, commit, buildDate),
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
-			// Bind known flags into viper so config file / env vars can override defaults.
-			bindFlag(v, cmd, "output", "output")
-			bindFlag(v, cmd, "timeout", "timeout")
-			bindFlag(v, cmd, "max-findings", "maxFindings")
-			bindFlag(v, cmd, "severity-min", "severityMin")
-			bindFlag(v, cmd, "confidence-min", "confidenceMin")
-			bindFlag(v, cmd, "include-events", "includeEvents")
-			bindFlag(v, cmd, "include-related", "includeRelated")
-
-			cfg, err := config.Load(v, config.LoadOptions{ConfigPath: flags.configPath})
+			cfg, err := config.Load(v, config.LoadOptions{ConfigPath: configPath})
 			if err != nil {
 				return fmt.Errorf("load config: %w", err)
 			}
 
 			log := logging.New(logging.Options{
-				Debug:   flags.debug,
-				Verbose: flags.verbose,
-				NoColor: flags.noColor,
+				Debug:   debug,
+				Verbose: verbose,
+				NoColor: noColor,
 			})
-			colorOn := cli.ResolveColor(cfg.Color, flags.noColor)
 
+			ns := derefStr(kubeFlags.Namespace)
 			opts := &cli.Options{
 				Config:         cfg,
 				KubeFlags:      kubeFlags,
 				Logger:         log,
-				Color:          colorOn,
-				Namespace:      strOrDefault(flags.namespace, *kubeFlags.Namespace),
-				Output:         cfg.Output,
-				Verbose:        flags.verbose,
-				Debug:          flags.debug,
-				NoColor:        flags.noColor,
+				Color:          cli.ResolveColor(cfg.Color, noColor),
+				Namespace:      ns,
+				Output:         cfg.Output, // includes --output flag via viper binding
+				Verbose:        verbose,
+				Debug:          debug,
+				NoColor:        noColor,
 				Timeout:        cfg.Timeout,
 				MaxFindings:    cfg.MaxFindings,
 				SeverityMin:    cfg.SeverityMin,
@@ -132,44 +127,52 @@ func NewRootCmd() *cobra.Command {
 		},
 	}
 
-	// Install rootState carrier on the root's context so subcommands can
-	// communicate exit codes up to Execute.
-	root.SetContext(context.WithValue(context.Background(), rootStateKey{}, &rootState{exitCode: cli.ExitOK}))
-
-	// Kube/kubectl-style flags (--kubeconfig, --context, --namespace, --cluster, etc.)
-	// cli-runtime's ConfigFlags owns --namespace/-n; we read via kubeFlags.Namespace.
+	// Kube/kubectl-style flags (--kubeconfig, --context, --namespace/-n, etc.)
 	kubeFlags.AddFlags(root.PersistentFlags())
 
-	// triage-specific flags
+	// triage-specific persistent flags — also bound into viper immediately so
+	// flag values take precedence over config-file values.
 	pf := root.PersistentFlags()
-	pf.StringVarP(&flags.output, "output", "o", "text", "output format: text, json, markdown")
-	pf.BoolVarP(&flags.verbose, "verbose", "v", false, "verbose output")
-	pf.BoolVar(&flags.debug, "debug", false, "enable debug logs on stderr")
-	pf.BoolVar(&flags.noColor, "no-color", false, "disable ANSI color output")
-	pf.IntVar(&flags.maxFindings, "max-findings", 20, "cap rendered findings")
-	pf.StringVar(&flags.severityMin, "severity-min", "info", "minimum severity to render (critical|high|medium|low|info)")
-	pf.StringVar(&flags.confidenceMin, "confidence-min", "low", "minimum confidence to render (high|medium|low)")
-	pf.BoolVar(&flags.includeEvents, "include-events", true, "include related Events in evidence")
-	pf.BoolVar(&flags.includeRelated, "include-related", true, "include related Services/PVCs in evidence")
-	pf.DurationVar(&flags.timeout, "timeout", 15*time.Second, "overall cluster-call timeout")
-	pf.StringVar(&flags.configPath, "config", "", "config file (default $XDG_CONFIG_HOME/triage/config.yaml)")
 
-	// The --namespace flag is owned by cli-runtime; shadow it to also bind to pf.namespace.
-	// This way our Options always see it.
-	_ = root.PersistentFlags().MarkHidden("as") // cli-runtime adds a lot; hide rarely-used ones in --help
-	_ = root.PersistentFlags().MarkHidden("as-group")
-	_ = root.PersistentFlags().MarkHidden("as-uid")
-	_ = root.PersistentFlags().MarkHidden("cache-dir")
-	_ = root.PersistentFlags().MarkHidden("certificate-authority")
-	_ = root.PersistentFlags().MarkHidden("client-certificate")
-	_ = root.PersistentFlags().MarkHidden("client-key")
-	_ = root.PersistentFlags().MarkHidden("insecure-skip-tls-verify")
-	_ = root.PersistentFlags().MarkHidden("password")
-	_ = root.PersistentFlags().MarkHidden("tls-server-name")
-	_ = root.PersistentFlags().MarkHidden("token")
-	_ = root.PersistentFlags().MarkHidden("username")
+	pf.StringVarP(&output, "output", "o", "text", "output format: text, json, markdown")
+	_ = v.BindPFlag("output", pf.Lookup("output"))
 
-	// Subcommands
+	pf.BoolVarP(&verbose, "verbose", "v", false, "verbose output")
+
+	pf.BoolVar(&debug, "debug", false, "enable debug logs on stderr")
+
+	pf.BoolVar(&noColor, "no-color", false, "disable ANSI color output")
+
+	pf.IntVar(&maxFindings, "max-findings", 20, "cap rendered findings")
+	_ = v.BindPFlag("maxFindings", pf.Lookup("max-findings"))
+
+	pf.StringVar(&severityMin, "severity-min", "info", "minimum severity (critical|high|medium|low|info)")
+	_ = v.BindPFlag("severityMin", pf.Lookup("severity-min"))
+
+	pf.StringVar(&confidenceMin, "confidence-min", "low", "minimum confidence (high|medium|low)")
+	_ = v.BindPFlag("confidenceMin", pf.Lookup("confidence-min"))
+
+	pf.BoolVar(&includeEvents, "include-events", true, "include related Events in evidence")
+	_ = v.BindPFlag("includeEvents", pf.Lookup("include-events"))
+
+	pf.BoolVar(&includeRelated, "include-related", true, "include related Services/PVCs in evidence")
+	_ = v.BindPFlag("includeRelated", pf.Lookup("include-related"))
+
+	pf.DurationVar(&timeout, "timeout", 15*time.Second, "overall cluster-call timeout")
+	_ = v.BindPFlag("timeout", pf.Lookup("timeout"))
+
+	pf.StringVar(&configPath, "config", "", "config file (default ~/.config/triage/config.yaml)")
+
+	// Hide low-signal kubectl flags from --help to reduce noise.
+	for _, name := range []string{
+		"as", "as-group", "as-uid", "cache-dir",
+		"certificate-authority", "client-certificate", "client-key",
+		"insecure-skip-tls-verify", "password", "tls-server-name",
+		"token", "username",
+	} {
+		_ = root.PersistentFlags().MarkHidden(name)
+	}
+
 	root.AddCommand(
 		newPodCmd(),
 		newDeploymentCmd(),
@@ -185,39 +188,15 @@ func NewRootCmd() *cobra.Command {
 	return root
 }
 
-// rootFlags holds pflag-bound values for later consumption in PersistentPreRunE.
-type rootFlags struct {
-	namespace      string
-	output         string
-	verbose        bool
-	debug          bool
-	noColor        bool
-	maxFindings    int
-	severityMin    string
-	confidenceMin  string
-	includeEvents  bool
-	includeRelated bool
-	timeout        time.Duration
-	configPath     string
-}
-
-func bindFlag(v *viper.Viper, cmd *cobra.Command, flagName, cfgKey string) {
-	if f := cmd.PersistentFlags().Lookup(flagName); f != nil {
-		_ = v.BindPFlag(cfgKey, f)
+// derefStr safely dereferences a *string from cli-runtime (which uses pointer fields).
+func derefStr(p *string) string {
+	if p == nil {
+		return ""
 	}
+	return *p
 }
 
-func strOrDefault(a, b string) string {
-	if a != "" {
-		return a
-	}
-	return b
-}
-
-// -----------------------------------------------------------------------------
-// Plugin mode (kubectl triage)
-// -----------------------------------------------------------------------------
-
+// rootUse returns "kubectl triage" when invoked as a kubectl plugin.
 func rootUse() string {
 	if isKubectlPluginMode() {
 		return "kubectl triage"
@@ -229,18 +208,16 @@ func isKubectlPluginMode() bool {
 	if os.Getenv("KREW_PLUGIN_NAME") != "" {
 		return true
 	}
-	bin := filepath.Base(os.Args[0])
-	// strip platform executable suffixes
-	bin = strings.TrimSuffix(bin, ".exe")
+	bin := strings.TrimSuffix(filepath.Base(os.Args[0]), ".exe")
 	return strings.HasPrefix(bin, "kubectl-")
 }
 
 func rootLongDescription() string {
 	return `triage diagnoses broken Kubernetes workloads.
 
-It inspects Pods, Deployments, Namespaces, and whole Clusters, and returns
-ranked findings with evidence, suggested fixes, and the exact next commands
-to run. Not a wrapper around kubectl describe — a rule-based diagnosis engine.
+It cross-references pod status, events, owner refs, services, endpoints, PVCs,
+and RBAC in one pass and returns ranked findings with evidence and the exact
+next commands to run.
 
 Examples:
   triage pod my-pod -n default

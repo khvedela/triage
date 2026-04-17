@@ -1,0 +1,76 @@
+{
+  "target": {
+    "kind": "Pod",
+    "namespace": "default",
+    "name": "crashloop-demo"
+  },
+  "generatedAt": "2024-01-15T10:30:00Z",
+  "durationMs": 42,
+  "findings": [
+    {
+      "id": "TRG-POD-CRASHLOOPBACKOFF",
+      "ruleId": "TRG-POD-CRASHLOOPBACKOFF",
+      "title": "Container \"app\" is in CrashLoopBackOff (5 restarts)",
+      "summary": "Container \"app\" has crashed 5 times. The kubelet is backing off restarts.",
+      "category": "Runtime",
+      "severity": "critical",
+      "confidence": "high",
+      "scope": "",
+      "target": {
+        "kind": "Pod",
+        "namespace": "default",
+        "name": "crashloop-demo"
+      },
+      "evidence": [
+        {
+          "kind": "Field",
+          "source": "pod.status.containerStatuses[app].state.waiting.reason",
+          "value": "CrashLoopBackOff"
+        },
+        {
+          "kind": "Field",
+          "source": "pod.status.containerStatuses[app].restartCount",
+          "value": "5"
+        }
+      ],
+      "remediation": {
+        "explanation": "Check the container logs for the exit reason.",
+        "nextCommands": [
+          "kubectl logs -n default crashloop-demo -c app --previous",
+          "kubectl describe pod -n default crashloop-demo"
+        ]
+      },
+      "createdAt": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "TRG-POD-OOMKILLED",
+      "ruleId": "TRG-POD-OOMKILLED",
+      "title": "Container \"app\" was OOMKilled",
+      "summary": "Container \"app\" was killed by the kernel OOM killer.",
+      "category": "ResourcePressure",
+      "severity": "high",
+      "confidence": "high",
+      "scope": "",
+      "target": {
+        "kind": "Pod",
+        "namespace": "default",
+        "name": "crashloop-demo"
+      },
+      "evidence": [
+        {
+          "kind": "Field",
+          "source": "pod.status.containerStatuses[app].lastState.terminated.reason",
+          "value": "OOMKilled"
+        }
+      ],
+      "remediation": {
+        "explanation": "The container exceeded its memory limit.",
+        "nextCommands": [
+          "kubectl top pod -n default crashloop-demo --containers"
+        ],
+        "suggestedFix": "Increase resources.limits.memory."
+      },
+      "createdAt": "0001-01-01T00:00:00Z"
+    }
+  ]
+}

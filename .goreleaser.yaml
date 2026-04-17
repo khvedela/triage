@@ -1,0 +1,90 @@
+version: 2
+
+project_name: triage
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: triage
+    main: ./main.go
+    binary: triage
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.buildDate={{.Date}}
+
+archives:
+  - id: triage
+    builds: [triage]
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: "checksums.txt"
+
+signs:
+  - artifacts: checksum
+    cmd: cosign
+    args:
+      - sign-blob
+      - --output-certificate=${certificate}
+      - --output-signature=${signature}
+      - ${artifact}
+      - --yes
+    certificate: "${artifact}.pem"
+    signature: "${artifact}.sig"
+
+sboms:
+  - artifacts: archive
+
+release:
+  github:
+    owner: OWNER
+    name: triage
+  draft: false
+  prerelease: auto
+  name_template: "{{.ProjectName}} {{.Tag}}"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: "Breaking Changes"
+      regexp: "^.*!:.*$"
+      order: 0
+    - title: "New Features"
+      regexp: "^feat.*:.*$"
+      order: 1
+    - title: "Bug Fixes"
+      regexp: "^fix.*:.*$"
+      order: 2
+    - title: Other
+      order: 999

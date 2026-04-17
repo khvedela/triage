@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stuck-rollout-demo
+  namespace: default
+spec:
+  replicas: 3
+  progressDeadlineSeconds: 30
+  selector:
+    matchLabels:
+      app: stuck-rollout-demo
+  template:
+    metadata:
+      labels:
+        app: stuck-rollout-demo
+    spec:
+      containers:
+        - name: app
+          # Non-existent image tag causes ImagePullBackOff, which stalls the rollout.
+          image: nginx:this-tag-does-not-exist
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

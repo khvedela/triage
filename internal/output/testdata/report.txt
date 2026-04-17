@@ -1,0 +1,29 @@
+▶ Pod default/crashloop-demo
+  generated: 10:30:00 UTC  (42ms)
+  overall: CRITICAL
+  findings: 2 (1 critical, 1 high)
+
+ⓧ CRITICAL  [high confidence]  TRG-POD-CRASHLOOPBACKOFF
+   Container "app" is in CrashLoopBackOff (5 restarts)
+   Container "app" has crashed 5 times. The kubelet is backing off restarts.
+
+   Evidence:
+     • pod.status.containerStatuses[app].state.waiting.reason = CrashLoopBackOff
+     • pod.status.containerStatuses[app].restartCount = 5
+
+   Next commands:
+     $ kubectl logs -n default crashloop-demo -c app --previous
+     $ kubectl describe pod -n default crashloop-demo
+
+● HIGH      [high confidence]  TRG-POD-OOMKILLED
+   Container "app" was OOMKilled
+   Container "app" was killed by the kernel OOM killer.
+
+   Evidence:
+     • pod.status.containerStatuses[app].lastState.terminated.reason = OOMKilled
+
+   Next commands:
+     $ kubectl top pod -n default crashloop-demo --containers
+
+   Suggested fix:
+     Increase resources.limits.memory.
