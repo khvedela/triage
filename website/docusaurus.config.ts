@@ -7,7 +7,7 @@ const config: Config = {
   tagline: "Ranked Kubernetes diagnosis with evidence, confidence, and the next command to run.",
   favicon: "img/favicon.svg",
   url: "https://khvedela.github.io",
-  baseUrl: "/triage/",
+  baseUrl: "/kubediag/",
   organizationName: "khvedela",
   projectName: "kubediag",
   trailingSlash: false,
