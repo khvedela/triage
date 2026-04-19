@@ -31,3 +31,4 @@ go.work.sum
 /website/node_modules/
 /website/build/
 /website/.docusaurus/
+website/dist/
