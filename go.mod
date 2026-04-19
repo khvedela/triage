@@ -1,4 +1,4 @@
-module github.com/khvedela/triage
+module github.com/khvedela/kubediag
 
 go 1.22.0
 
