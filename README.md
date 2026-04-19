@@ -43,17 +43,35 @@ kubectl get svc,endpoints ...
 
 ## Install
 
-### Homebrew
+### Linux
 
-Not published yet.
+**Quick install** (x86_64):
+```sh
+curl -sL https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_amd64.tar.gz | tar xz -C /usr/local/bin
+triage --help
+```
 
-### Krew
+**Arm64**:
+```sh
+curl -sL https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_arm64.tar.gz | tar xz -C /usr/local/bin
+```
 
-Manifest is in-repo, but public Krew index publication is not live yet.
+### macOS
 
-### Binary download
+**Homebrew**:
+```sh
+brew install khvedela/triage/triage
+```
 
-Grab a prebuilt binary from [Releases](https://github.com/khvedela/triage/releases) and drop it on your `$PATH`.
+Or manually: grab a binary from [Releases](https://github.com/khvedela/triage/releases).
+
+### Krew (all platforms)
+
+```sh
+kubectl krew install triage
+```
+
+Manifest is in-repo; public Krew index publication pending.
 
 ### From source
 
