@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 func init() { Register(&clusterAPIServerLatency{}) }

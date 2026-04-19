@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/khvedela/triage/internal/config"
+	"github.com/khvedela/kubediag/internal/config"
 )
 
 // Options is the per-invocation state threaded through every command.

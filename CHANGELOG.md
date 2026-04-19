@@ -18,8 +18,8 @@ _No changes yet._
 - **TRG-POD-BAD-ENV-REF** — fires when an env var using `configMapKeyRef` or `secretKeyRef` references a key that does not exist in an otherwise-present ConfigMap or Secret. Respects the `optional: true` flag.
 - **TRG-CLUSTER-QUOTA-EXHAUSTED** — detects namespace ResourceQuotas at ≥95% utilisation (High) or 100% (Critical). Fires for namespace and cluster targets.
 - **TRG-CLUSTER-APISERVER-LATENCY** — detects Warning events in `kube-system` whose reason or message matches known API server / etcd latency signals (`SlowReadResponse`, `SlowWriteResponse`, `context deadline exceeded`, etcd errors, etc.).
-- `triage report cluster` — full markdown cluster report now implemented (was a stub returning "not yet implemented").
-- Markdown report (`triage report namespace`, `triage report cluster`) now emits a **table of contents** with anchor links and structured `## Contents / ## Summary / ## Findings` sections.
+- `kubediag report cluster` — full markdown cluster report now implemented (was a stub returning "not yet implemented").
+- Markdown report (`kubediag report namespace`, `kubediag report cluster`) now emits a **table of contents** with anchor links and structured `## Contents / ## Summary / ## Findings` sections.
 - `ResourceQuota` added to the `kube.Interface`, `ResourceCache`, and `FakeClient` — available to all rules and prefetched for namespace and cluster targets.
 - Collector now prefetches `ResourceQuotas` for namespace targets and `kube-system` events for cluster targets.
 
@@ -32,12 +32,12 @@ _No changes yet._
 ### Added
 
 - Initial project scaffold.
-- Core CLI structure: `triage {pod, deployment, namespace, cluster, report, rules, config, version, completion}`.
+- Core CLI structure: `kubediag {pod, deployment, namespace, cluster, report, rules, config, version, completion}`.
 - Rule engine with built-in first-party rule set (23 rules).
 - Output renderers: `text`, `json`, `markdown`.
-- Configuration via `~/.config/triage/config.yaml` and `TRIAGE_*` env vars.
-- kubectl plugin support (`kubectl-triage` symlink).
+- Configuration via `~/.config/triage/config.yaml` and `KUBEDIAG_*` env vars.
+- kubectl plugin support (`kubectl-kubediag` symlink).
 
-[Unreleased]: https://github.com/khvedela/triage/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/khvedela/triage/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/khvedela/triage/releases/tag/v0.1.0
+[Unreleased]: https://github.com/khvedela/kubediag/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/khvedela/kubediag/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/khvedela/kubediag/releases/tag/v0.1.0

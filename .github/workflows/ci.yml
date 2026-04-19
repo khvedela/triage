@@ -52,4 +52,4 @@ jobs:
       - name: Build binary
         run: make build
       - name: Smoke test
-        run: ./bin/triage --help
+        run: ./bin/kubediag --help

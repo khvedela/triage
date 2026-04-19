@@ -11,7 +11,7 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
 <DocHero
   eyebrow="Distribution"
   title="GitHub-native releases with trust material built in."
-  lede="triage releases are cut by GitHub Actions and GoReleaser when a semantic version tag is pushed. The important outcome is not only the binary archive, but the supporting material around it: checksums, signatures, certificates, and SBOMs."
+  lede="kubediag releases are cut by GitHub Actions and GoReleaser when a semantic version tag is pushed. The important outcome is not only the binary archive, but the supporting material around it: checksums, signatures, certificates, and SBOMs."
   meta={["GitHub Actions", "GoReleaser", "Checksums + signatures", "SBOMs per archive"]} />
 
 <InfoGrid
@@ -37,11 +37,11 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
 ## Artifact names
 
 ```text
-triage_linux_amd64.tar.gz
-triage_linux_arm64.tar.gz
-triage_darwin_amd64.tar.gz
-triage_darwin_arm64.tar.gz
-triage_windows_amd64.zip
+kubediag_linux_amd64.tar.gz
+kubediag_linux_arm64.tar.gz
+kubediag_darwin_amd64.tar.gz
+kubediag_darwin_arm64.tar.gz
+kubediag_windows_amd64.zip
 checksums.txt
 checksums.txt.sig
 checksums.txt.pem
@@ -53,7 +53,7 @@ checksums.txt.pem
   eyebrow="Release verification"
   title="Treat GitHub Releases as the canonical artifact source."
   description="The release feed is the source of truth for binary download, checksum verification, signature validation, and future packaging integrations."
-  command="https://github.com/khvedela/triage/releases"
+  command="https://github.com/khvedela/kubediag/releases"
   caption="Whether you mirror artifacts internally or install directly from GitHub, the verification story should anchor on this release feed." />
 
 ## Packaging status

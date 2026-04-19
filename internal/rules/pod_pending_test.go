@@ -9,9 +9,9 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/kube"
-	"github.com/khvedela/triage/internal/rules"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/kube"
+	"github.com/khvedela/kubediag/internal/rules"
 )
 
 func pendingPodWithEvent(ns, name, eventMsg string) (*corev1.Pod, eventsv1.Event) {

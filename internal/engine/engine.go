@@ -1,4 +1,4 @@
-// Package engine orchestrates a triage run: it resolves the target, drives
+// Package engine orchestrates a kubediag run: it resolves the target, drives
 // the collector to fetch related resources into a request-scoped cache, runs
 // all scope-matching rules, then ranks and deduplicates the resulting
 // findings into a Report.
@@ -13,9 +13,9 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/kube"
-	"github.com/khvedela/triage/internal/rules"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/kube"
+	"github.com/khvedela/kubediag/internal/rules"
 )
 
 // Options are the per-run engine knobs.

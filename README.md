@@ -1,20 +1,20 @@
-# triage
+# kubediag
 
 > A kubectl-native diagnostic CLI that turns broken Kubernetes workload symptoms into ranked root-cause findings, evidence, and the exact next command to run.
 
-[![CI](https://github.com/khvedela/triage/actions/workflows/ci.yml/badge.svg)](https://github.com/khvedela/triage/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/khvedela/triage)](https://github.com/khvedela/triage/releases/latest)
+[![CI](https://github.com/khvedela/kubediag/actions/workflows/ci.yml/badge.svg)](https://github.com/khvedela/kubediag/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/khvedela/kubediag)](https://github.com/khvedela/kubediag/releases/latest)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Go Report](https://goreportcard.com/badge/github.com/khvedela/triage)](https://goreportcard.com/report/github.com/khvedela/triage)
+[![Go Report](https://goreportcard.com/badge/github.com/khvedela/kubediag)](https://goreportcard.com/report/github.com/khvedela/kubediag)
 
-**`triage` is not another wrapper around `kubectl describe`.** It's a rule-based diagnosis engine that cross-references pod status, events, owner refs, services, endpoints, PVCs, and RBAC in one pass and tells you *what is broken*, *why*, and *what to do next* — in under two seconds.
+**`kubediag` is not another wrapper around `kubectl describe`.** It's a rule-based diagnosis engine that cross-references pod status, events, owner refs, services, endpoints, PVCs, and RBAC in one pass and tells you *what is broken*, *why*, and *what to do next* — in under two seconds.
 
-Docs website: <https://khvedela.github.io/triage/>  
-Interactive sandbox: <https://khvedela.github.io/triage/sandbox>
+Docs website: <https://khvedela.github.io/kubediag/>  
+Interactive sandbox: <https://khvedela.github.io/kubediag/sandbox>
 
 ---
 
-## Why `triage`?
+## Why `kubediag`?
 
 When a pod breaks, most of us end up running the same forensic sequence:
 
@@ -26,9 +26,9 @@ kubectl get svc,endpoints ...
 # ... then Google the error message
 ```
 
-`triage` automates that entire loop. One command, one ranked diagnosis.
+`kubediag` automates that entire loop. One command, one ranked diagnosis.
 
-|                         | `kubectl describe` | `triage`                              |
+|                         | `kubectl describe` | `kubediag`                            |
 | ----------------------- | ------------------ | ------------------------------------- |
 | Shows raw status        | ✅                 | ✅ (as evidence)                      |
 | Identifies root cause   | ❌                 | ✅ (ranked by confidence × severity)  |
@@ -47,28 +47,28 @@ kubectl get svc,endpoints ...
 
 **Quick install** (x86_64):
 ```sh
-curl -sL https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_amd64.tar.gz | tar xz -C /usr/local/bin
-triage --help
+curl -sL https://github.com/khvedela/kubediag/releases/download/v0.2.0/kubediag_linux_amd64.tar.gz | tar xz -C /usr/local/bin
+kubediag --help
 ```
 
 **Arm64**:
 ```sh
-curl -sL https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_arm64.tar.gz | tar xz -C /usr/local/bin
+curl -sL https://github.com/khvedela/kubediag/releases/download/v0.2.0/kubediag_linux_arm64.tar.gz | tar xz -C /usr/local/bin
 ```
 
 ### macOS
 
 **Homebrew**:
 ```sh
-brew install khvedela/triage/triage
+brew install khvedela/kubediag/kubediag
 ```
 
-Or manually: grab a binary from [Releases](https://github.com/khvedela/triage/releases).
+Or manually: grab a binary from [Releases](https://github.com/khvedela/kubediag/releases).
 
 ### Krew (all platforms)
 
 ```sh
-kubectl krew install triage
+kubectl krew install kubediag
 ```
 
 Manifest is in-repo; public Krew index publication pending.
@@ -76,16 +76,16 @@ Manifest is in-repo; public Krew index publication pending.
 ### From source
 
 ```sh
-go install github.com/khvedela/triage@latest
+go install github.com/khvedela/kubediag@latest
 ```
 
 ### As a kubectl plugin
 
-Symlink the binary to `kubectl-triage` somewhere on your `$PATH`:
+Symlink the binary to `kubectl-kubediag` somewhere on your `$PATH`:
 
 ```sh
-ln -s $(which triage) ~/.local/bin/kubectl-triage
-kubectl triage pod my-pod -n default
+ln -s $(which kubediag) ~/.local/bin/kubectl-kubediag
+kubectl kubediag pod my-pod -n default
 ```
 
 ---
@@ -94,25 +94,25 @@ kubectl triage pod my-pod -n default
 
 ```sh
 # Diagnose a single pod
-triage pod my-pod -n default
+kubediag pod my-pod -n default
 
 # Diagnose a deployment (surfaces deployment-level and pod-level findings)
-triage deployment web -n prod
+kubediag deployment web -n prod
 
 # Survey a whole namespace
-triage namespace prod
+kubediag namespace prod
 
 # Cluster-wide check
-triage cluster
+kubediag cluster
 
 # Machine-readable output
-triage pod my-pod -o json | jq '.findings[0]'
+kubediag pod my-pod -o json | jq '.findings[0]'
 
 # Generate a markdown incident report for a namespace
-triage report namespace prod > triage-report.md
+kubediag report namespace prod > kubediag-report.md
 
 # Generate a full cluster report
-triage report cluster > cluster-report.md
+kubediag report cluster > cluster-report.md
 ```
 
 ### Example output
@@ -149,20 +149,20 @@ triage report cluster > cluster-report.md
 
 | Command                           | Purpose                                                   |
 | --------------------------------- | --------------------------------------------------------- |
-| `triage pod <name>`               | Diagnose a single pod                                     |
-| `triage deployment <name>`        | Diagnose a deployment and all pods under it               |
-| `triage namespace <ns>`           | Diagnose every workload in a namespace                    |
-| `triage cluster`                  | Cluster-wide checks (node conditions, quota, events)      |
-| `triage report namespace <ns>`    | Full markdown diagnostic report for a namespace           |
-| `triage report cluster`           | Full markdown diagnostic report for the cluster           |
-| `triage rules list`               | List all built-in rules                                   |
-| `triage rules explain <rule-id>`  | Full docs for a specific rule                             |
-| `triage config view`              | Show resolved configuration with provenance               |
-| `triage config init`              | Write a commented config template                         |
-| `triage completion {shell}`       | Shell completion script                                   |
-| `triage version`                  | Print version info                                        |
+| `kubediag pod <name>`               | Diagnose a single pod                                     |
+| `kubediag deployment <name>`        | Diagnose a deployment and all pods under it               |
+| `kubediag namespace <ns>`           | Diagnose every workload in a namespace                    |
+| `kubediag cluster`                  | Cluster-wide checks (node conditions, quota, events)      |
+| `kubediag report namespace <ns>`    | Full markdown diagnostic report for a namespace           |
+| `kubediag report cluster`           | Full markdown diagnostic report for the cluster           |
+| `kubediag rules list`               | List all built-in rules                                   |
+| `kubediag rules explain <rule-id>`  | Full docs for a specific rule                             |
+| `kubediag config view`              | Show resolved configuration with provenance               |
+| `kubediag config init`              | Write a commented config template                         |
+| `kubediag completion {shell}`       | Shell completion script                                   |
+| `kubediag version`                  | Print version info                                        |
 
-See [docs/commands.md](docs/commands.md) for the repo copy, or browse the hosted docs at <https://khvedela.github.io/triage/docs/commands>.
+See [docs/commands.md](docs/commands.md) for the repo copy, or browse the hosted docs at <https://khvedela.github.io/kubediag/docs/commands>.
 
 ---
 
@@ -185,13 +185,13 @@ See [docs/commands.md](docs/commands.md) for the repo copy, or browse the hosted
                        └──────────────┘      └─────────────┘
 ```
 
-See [docs/architecture.md](docs/architecture.md) for the full design.
+See [docs/architecture.md](docs/architecture.md) for full design.
 
 ---
 
 ## Rules
 
-`triage` ships with 28 built-in rules covering the most common failure modes. Each rule has a stable ID, a category, and documented evidence + remediation.
+`kubediag` ships with 28 built-in rules covering the most common failure modes. Each rule has a stable ID, a category, and documented evidence + remediation.
 
 | Category | Rules |
 | --- | --- |
@@ -205,7 +205,7 @@ See [docs/architecture.md](docs/architecture.md) for the full design.
 | **Resource Pressure** | Node NotReady, Memory/Disk/PID pressure, quota exhausted |
 | **Cluster** | API server latency events |
 
-Full list: [docs/rules.md](docs/rules.md). Hosted reference: <https://khvedela.github.io/triage/docs/rules>.  
+Full list: [docs/rules.md](docs/rules.md). Hosted reference: <https://khvedela.github.io/kubediag/docs/rules>.  
 Want to add a rule? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
@@ -230,27 +230,27 @@ namespaces:
   exclude: [kube-system, kube-public]
 ```
 
-All keys are also overridable via environment variables prefixed `TRIAGE_` (e.g. `TRIAGE_OUTPUT=json`). See [docs/configuration.md](docs/configuration.md) or <https://khvedela.github.io/triage/docs/configuration>.
+All keys are also overridable via environment variables prefixed `KUBEDIAG_` (e.g. `KUBEDIAG_OUTPUT=json`). See [docs/configuration.md](docs/configuration.md) or <https://khvedela.github.io/kubediag/docs/configuration>.
 
 ---
 
 ## Roadmap
 
-**v0.2.0** (current): Rule set expansion — exec-format errors, service port mismatches, bad env key refs, quota exhaustion, API server latency events, `triage report cluster`, richer readiness probe sampling.
+**v0.2.0** (current): Rule set expansion — exec-format errors, service port mismatches, bad env key refs, quota exhaustion, API server latency events, `kubediag report cluster`, richer readiness probe sampling.
 
 **v0.3.0**: YAML rule packs — declarative rules with CEL expressions, loadable without recompile.
 
-**v0.4.0**: Interactive mode — `triage watch pod <name>`, `--since` flag, fzf-style namespace picker.
+**v0.4.0**: Interactive mode — `kubediag watch pod <name>`, `--since` flag, fzf-style namespace picker.
 
 **v1.0.0**: Stable public API, `pkg/` promotion, Homebrew tap, container image.
 
-See [docs/roadmap.md](docs/roadmap.md) or <https://khvedela.github.io/triage/docs/roadmap>.
+See [docs/roadmap.md](docs/roadmap.md) or <https://khvedela.github.io/kubediag/docs/roadmap>.
 
 ---
 
 ## Contributing
 
-Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to build, test, and add rules. Security issues: see [SECURITY.md](SECURITY.md). For the presentable docs and sandbox experience, use <https://khvedela.github.io/triage/>.
+Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to build, test, and add rules. Security issues: see [SECURITY.md](SECURITY.md). For the presentable docs and sandbox experience, use <https://khvedela.github.io/kubediag/>.
 
 ## License
 

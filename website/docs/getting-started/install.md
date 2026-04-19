@@ -1,6 +1,6 @@
 ---
 title: Install
-description: Install triage from signed release binaries, source, or as a kubectl plugin.
+description: Install kubediag from signed release binaries, source, or as a kubectl plugin.
 slug: /getting-started/install
 ---
 
@@ -10,7 +10,7 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
 
 <DocHero
   eyebrow="Getting started"
-  title="Install triage for fast incident diagnosis."
+  title="Install kubediag for fast incident diagnosis."
   lede="The release flow is intentionally simple: grab a signed binary, install from source, or expose the same binary as a kubectl plugin. The right choice depends on how much control your environment expects over provenance and update cadence."
   meta={["Signed release assets", "SBOMs published", "Plugin-compatible binary"]} />
 
@@ -30,7 +30,7 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
     {
       label: "kubectl workflow",
       title: "Plugin mode",
-      body: "Best when operators already live inside kubectl and want triage to feel like part of the native CLI surface."
+      body: "Best when operators already live inside kubectl and want kubediag to feel like part of the native CLI surface."
     }
   ]} />
 
@@ -39,9 +39,9 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
   title="Use GitHub Releases when provenance matters."
   description="GitHub Releases is the canonical distribution channel. Each release includes platform archives plus checksum, signature, and certificate material."
   command={[
-    "curl -L https://github.com/khvedela/triage/releases/latest/download/triage_darwin_arm64.tar.gz | tar xz",
+    "curl -L https://github.com/khvedela/kubediag/releases/latest/download/kubediag_darwin_arm64.tar.gz | tar xz",
     "chmod +x triage",
-    "mv triage /usr/local/bin/triage"
+    "mv kubediag /usr/local/bin/triage"
   ]}
   caption="Swap the archive name for the platform you actually run. Published artifacts currently cover linux amd64/arm64, darwin amd64/arm64, and windows amd64." />
 
@@ -49,16 +49,16 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
   eyebrow="Source install"
   title="Use the public module path when source-based tooling is standard."
   description="This is the cleanest option for local development machines and internal environments that already trust Go modules."
-  command="go install github.com/khvedela/triage@latest"
+  command="go install github.com/khvedela/kubediag@latest"
   caption="The binary lands in your Go bin directory and carries the same CLI behavior as the release build." />
 
 <CommandBlock
   eyebrow="kubectl plugin mode"
-  title="Expose the same binary as kubectl-triage."
-  description="triage does not need a second build target to behave like a kubectl plugin. The binary checks how it was invoked and switches its command surface accordingly."
+  title="Expose the same binary as kubectl-kubediag."
+  description="kubediag does not need a second build target to behave like a kubectl plugin. The binary checks how it was invoked and switches its command surface accordingly."
   command={[
-    "ln -s \"$(which triage)\" ~/.local/bin/kubectl-triage",
-    "kubectl triage pod my-pod -n default"
+    "ln -s \"$(which triage)\" ~/.local/bin/kubectl-kubediag",
+    "kubectl kubediag pod my-pod -n default"
   ]}
   caption="This is useful for teams that want a kubectl-native incident flow without maintaining a separate plugin implementation." />
 

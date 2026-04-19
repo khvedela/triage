@@ -25,7 +25,7 @@ export const scenarios: Scenario[] = [
     name: "CrashLoopBackOff",
     headline: "A pod restarts fast enough that the incident starts as noise and becomes an outage.",
     summary:
-      "triage promotes the runtime failure to the top, preserves the raw evidence, and gives the exact commands needed to confirm the crash cause.",
+      "kubediag promotes the runtime failure to the top, preserves the raw evidence, and gives the exact commands needed to confirm the crash cause.",
     primaryRule: "TRG-POD-CRASHLOOPBACKOFF",
     severity: "critical",
     confidence: "high",
@@ -55,7 +55,7 @@ spec:
       "Last 3 log lines show the process exits almost immediately"
     ],
     whyItWins: [
-      "The waiting reason is explicit and high-confidence; triage can name the runtime symptom without guessing.",
+      "The waiting reason is explicit and high-confidence; kubediag can name the runtime symptom without guessing.",
       "Restart count confirms this is not a one-off crash but a repeating failure pattern.",
       "Related findings, like OOMKilled, stay visible but ranked below the primary incident driver."
     ],
@@ -84,7 +84,7 @@ spec:
 ● HIGH      [high confidence]  TRG-POD-OOMKILLED
    Container "app" was OOMKilled
    Container "app" was killed by the kernel OOM killer.`,
-      markdown: `# Triage report — Pod default/crashloop-demo
+      markdown: `# Kubediag report — Pod default/crashloop-demo
 
 _Generated at 2024-01-15 10:30:00 UTC (42ms)_
 
@@ -130,7 +130,7 @@ Container "app" has crashed 5 times. The kubelet is backing off restarts.`,
     name: "Missing ConfigMap",
     headline: "A pod references config that was never created, so it never becomes runnable.",
     summary:
-      "triage turns a generic startup failure into a concrete configuration diagnosis tied to the missing object name and the affected reference.",
+      "kubediag turns a generic startup failure into a concrete configuration diagnosis tied to the missing object name and the affected reference.",
     primaryRule: "TRG-POD-MISSING-CONFIGMAP",
     severity: "high",
     confidence: "high",
@@ -163,7 +163,7 @@ spec:
       "Pod remains Pending / ContainerCreating waiting on referenced config"
     ],
     whyItWins: [
-      "The pod spec directly points to a named ConfigMap, so triage can verify existence instead of inferring from a vague event string.",
+      "The pod spec directly points to a named ConfigMap, so kubediag can verify existence instead of inferring from a vague event string.",
       "The missing object name becomes part of the diagnosis, which shortens the path from symptom to fix.",
       "This finding outranks generic startup symptoms because the broken dependency is explicit."
     ],
@@ -191,7 +191,7 @@ spec:
 
    Suggested fix:
      Create the ConfigMap or update the pod spec to reference the correct object.`,
-      markdown: `# Triage report — Pod default/bad-configmap-demo
+      markdown: `# Kubediag report — Pod default/bad-configmap-demo
 
 **Overall severity:** \`high\`
 
@@ -223,7 +223,7 @@ The pod references ConfigMap \`does-not-exist\` in env valueFrom.`,
     name: "Stuck rollout",
     headline: "A deployment keeps its old replicas because the new image cannot be pulled.",
     summary:
-      "triage surfaces both the rollout-level failure and the underlying image issue so operators do not have to correlate controller and pod symptoms manually.",
+      "kubediag surfaces both the rollout-level failure and the underlying image issue so operators do not have to correlate controller and pod symptoms manually.",
     primaryRule: "TRG-DEPLOY-ROLLOUT-STUCK",
     severity: "critical",
     confidence: "high",
@@ -262,7 +262,7 @@ spec:
     ],
     whyItWins: [
       "The deployment condition proves the rollout exceeded its progress deadline, which makes this a controller-level incident.",
-      "triage keeps the image pull error attached as supporting evidence so the underlying fix stays obvious.",
+      "kubediag keeps the image pull error attached as supporting evidence so the underlying fix stays obvious.",
       "Operators can see both what is broken at the rollout layer and why it is broken at the pod layer."
     ],
     nextCommands: [
@@ -286,7 +286,7 @@ spec:
 ● HIGH      [high confidence]  TRG-POD-IMAGE-NOT-FOUND
    Container image tag or repository does not exist
    The registry returned manifest not found for image nginx:this-tag-does-not-exist.`,
-      markdown: `# Triage report — Deployment default/stuck-rollout-demo
+      markdown: `# Kubediag report — Deployment default/stuck-rollout-demo
 
 **Overall severity:** \`critical\`
 
@@ -319,7 +319,7 @@ The deployment has not made progress before \`progressDeadlineSeconds\` elapsed.
     name: "OOMKilled",
     headline: "The process survives long enough to start, then crosses its memory limit and gets killed.",
     summary:
-      "triage distinguishes resource pressure from generic crash behavior and includes the configured memory limit directly in the evidence trail.",
+      "kubediag distinguishes resource pressure from generic crash behavior and includes the configured memory limit directly in the evidence trail.",
     primaryRule: "TRG-POD-OOMKILLED",
     severity: "high",
     confidence: "high",
@@ -373,7 +373,7 @@ spec:
 
    Suggested fix:
      Increase resources.limits.memory.`,
-      markdown: `# Triage report — Pod default/oom-pod
+      markdown: `# Kubediag report — Pod default/oom-pod
 
 **Overall severity:** \`high\`
 

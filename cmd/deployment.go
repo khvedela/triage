@@ -3,8 +3,8 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/khvedela/triage/internal/cli"
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/cli"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 func newDeploymentCmd() *cobra.Command {

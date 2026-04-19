@@ -6,7 +6,7 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 func init() {
@@ -153,7 +153,7 @@ func (r *deployUnavailable) Evaluate(ctx context.Context, rc *Context) ([]findin
 				fmt.Sprintf("kubectl get pods -n %s -l app=%s", ns, name),
 				fmt.Sprintf("kubectl describe deployment -n %s %s", ns, name),
 			},
-			SuggestedFix: "Run `triage pod <pod-name> -n " + ns + "` against one of the failing pods for a detailed diagnosis.",
+			SuggestedFix: "Run `kubediag pod <pod-name> -n " + ns + "` against one of the failing pods for a detailed diagnosis.",
 		},
 	}}, nil
 }

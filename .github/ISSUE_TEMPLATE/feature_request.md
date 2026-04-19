@@ -10,7 +10,7 @@ labels: enhancement
 
 ## Proposed solution
 
-<!-- Describe what you'd like triage to do. -->
+<!-- Describe what you'd like kubediag to do. -->
 
 ## Rule proposal (if applicable)
 

@@ -30,9 +30,9 @@ Prerequisites:
 Clone and build:
 
 ```sh
-git clone https://github.com/khvedela/triage
-cd triage
-make build       # builds ./bin/triage
+git clone https://github.com/khvedela/kubediag
+cd kubediag
+make build       # builds ./bin/kubediag
 make test        # unit tests
 make lint        # golangci-lint
 ```
@@ -40,7 +40,7 @@ make lint        # golangci-lint
 Run against your current kubeconfig context:
 
 ```sh
-./bin/triage pod <some-pod> -n <ns> --debug
+./bin/kubediag pod <some-pod> -n <ns> --debug
 ```
 
 ---
@@ -76,7 +76,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/khvedela/triage/internal/findings"
+    "github.com/khvedela/kubediag/internal/findings"
 )
 
 func init() { Register(&podBadCommand{}) }

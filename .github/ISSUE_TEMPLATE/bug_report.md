@@ -11,20 +11,20 @@ labels: bug
 ## Command run
 
 ```
-triage <subcommand> <args>
+kubediag <subcommand> <args>
 ```
 
 ## Expected behavior
 
-<!-- What you expected triage to output. -->
+<!-- What you expected kubediag to output. -->
 
 ## Actual behavior
 
-<!-- What triage actually output. Paste the full output including any errors. -->
+<!-- What kubediag actually output. Paste the full output including any errors. -->
 
 ## Environment
 
-- triage version (`triage version`):
+- kubediag version (`kubediag version`):
 - Kubernetes version (`kubectl version`):
 - OS / arch:
 - Output format (`--output`):

@@ -1,4 +1,4 @@
-# Triage report — Pod default/crashloop-demo
+# Kubediag report — Pod default/crashloop-demo
 
 _Generated at 2024-01-15 10:30:00 UTC (42ms)_
 

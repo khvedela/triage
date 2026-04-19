@@ -13,7 +13,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-// Interface is the narrow Kubernetes surface triage uses. It is small by
+// Interface is the narrow Kubernetes surface kubediag uses. It is small by
 // design: only the reads that rules actually need. A fake implementation for
 // tests lives in internal/kube/fake.
 type Interface interface {
@@ -60,7 +60,7 @@ func NewClient(flags *genericclioptions.ConfigFlags) (Interface, error) {
 	if err != nil {
 		return nil, fmt.Errorf("build rest config: %w", err)
 	}
-	restCfg.UserAgent = "triage"
+	restCfg.UserAgent = "kubediag"
 	cs, err := kubernetes.NewForConfig(restCfg)
 	if err != nil {
 		return nil, fmt.Errorf("build clientset: %w", err)

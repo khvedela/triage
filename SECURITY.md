@@ -8,7 +8,7 @@ Security fixes are applied to the latest minor release on `main`. Pre-1.0, we do
 
 **Do not** open a public issue for security problems. Instead:
 
-- Use GitHub's [private security advisories](https://github.com/khvedela/triage/security/advisories/new).
+- Use GitHub's [private security advisories](https://github.com/khvedela/kubediag/security/advisories/new).
 
 Please include:
 

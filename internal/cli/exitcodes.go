@@ -4,10 +4,10 @@ package cli
 
 // Exit codes are a public contract for CI pipelines that shell out to triage.
 const (
-	// ExitOK — triage ran successfully and produced no findings at or above
+	// ExitOK — kubediag ran successfully and produced no findings at or above
 	// the configured severity threshold.
 	ExitOK = 0
-	// ExitFindings — triage ran successfully and produced at least one
+	// ExitFindings — kubediag ran successfully and produced at least one
 	// finding at or above the configured severity threshold.
 	ExitFindings = 1
 	// ExitUsage — the invocation itself was invalid (bad flags, missing args).
@@ -17,6 +17,6 @@ const (
 	// diagnosis. RBAC denials do not raise this — they produce an
 	// informational finding instead.
 	ExitClusterError = 3
-	// ExitInternal — an unexpected error in triage itself.
+	// ExitInternal — an unexpected error in kubediag itself.
 	ExitInternal = 10
 )

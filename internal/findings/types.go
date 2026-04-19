@@ -17,7 +17,7 @@ import (
 // Target: what we are diagnosing
 // -----------------------------------------------------------------------------
 
-// TargetKind enumerates the scopes triage can diagnose.
+// TargetKind enumerates the scopes kubediag can diagnose.
 type TargetKind string
 
 const (
@@ -268,7 +268,7 @@ func (m RuleMeta) AppliesTo(k TargetKind) bool {
 // Report — the top-level serializable output
 // -----------------------------------------------------------------------------
 
-// Report is the full output of one triage run.
+// Report is the full output of one kubediag run.
 type Report struct {
 	Target      Target    `json:"target"`
 	GeneratedAt time.Time `json:"generatedAt"`

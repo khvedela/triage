@@ -20,8 +20,8 @@ Prerequisites:
 Clone and build:
 
 ```sh
-git clone https://github.com/khvedela/triage
-cd triage
+git clone https://github.com/khvedela/kubediag
+cd kubediag
 make build
 make test
 make lint
@@ -95,5 +95,5 @@ npm run build
 
 ## Security and conduct
 
-- Security issues: see [SECURITY.md](https://github.com/khvedela/triage/blob/main/SECURITY.md)
-- Contributor conduct: see [CODE_OF_CONDUCT.md](https://github.com/khvedela/triage/blob/main/CODE_OF_CONDUCT.md)
+- Security issues: see [SECURITY.md](https://github.com/khvedela/kubediag/blob/main/SECURITY.md)
+- Contributor conduct: see [CODE_OF_CONDUCT.md](https://github.com/khvedela/kubediag/blob/main/CODE_OF_CONDUCT.md)

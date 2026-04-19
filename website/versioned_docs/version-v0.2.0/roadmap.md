@@ -10,9 +10,9 @@ slug: /roadmap
 
 - Core rule engine with 23 rules covering crash/runtime, scheduling, image pull, networking, rollout, and RBAC
 - Three output formats: text (ANSI), JSON, Markdown
-- Standalone binary (`triage`) and kubectl plugin (`kubectl-triage`)
-- `triage pod`, `triage deployment`, `triage namespace`, `triage cluster` commands
-- `triage rules list` and `triage rules explain <id>` for rule introspection
+- Standalone binary (`triage`) and kubectl plugin (`kubectl-kubediag`)
+- `kubediag pod`, `kubediag deployment`, `kubediag namespace`, `kubediag cluster` commands
+- `kubediag rules list` and `kubediag rules explain <id>` for rule introspection
 - Request-scoped ResourceCache to avoid redundant Kubernetes API calls
 - GoReleaser distribution (linux/darwin/windows, amd64/arm64)
 - Krew manifest for kubectl plugin installation
@@ -24,34 +24,34 @@ slug: /roadmap
 - **TRG-POD-BAD-ENV-REF** — `configMapKeyRef` / `secretKeyRef` pointing at a missing key in an existing ConfigMap or Secret
 - **TRG-CLUSTER-QUOTA-EXHAUSTED** — namespace ResourceQuota at ≥95% (High) or 100% (Critical)
 - **TRG-CLUSTER-APISERVER-LATENCY** — Warning events indicating API server / etcd latency
-- `triage report cluster` fully implemented (was a stub)
+- `kubediag report cluster` fully implemented (was a stub)
 - Markdown reports now include a table of contents with anchor links
 - **TRG-POD-READINESS-FAILING** improvement: samples up to 3 distinct recent event messages per container
 
 ## v0.3.0 — YAML rule packs (external rules)
 
 - Rule pack format: YAML-defined rules with CEL expressions for field matching
-- `triage rules load ./my-rules.yaml` for custom/org-specific rules
+- `kubediag rules load ./my-rules.yaml` for custom/org-specific rules
 - Rule versioning and conflict resolution
 - Rule pack repository (community-contributed rules)
 
 ## v0.4.0 — Interactive mode and watch
 
-- `triage watch pod <name>` — re-run every N seconds, diff findings
+- `kubediag watch pod <name>` — re-run every N seconds, diff findings
 - `--since` flag: filter events newer than a duration
-- Interactive selector for `triage namespace` (fzf-style picker)
+- Interactive selector for `kubediag namespace` (fzf-style picker)
 
 ## v1.0.0 — Stable API
 
 - Rule ID and finding schema stability guarantee
-- `pkg/` promotion for embedding triage as a library
+- `pkg/` promotion for embedding kubediag as a library
 - Deprecation policy enforcement (old IDs kept as aliases for one minor)
 - Comprehensive e2e test suite against kind clusters
 - Homebrew tap and container image
 
 ## Out of scope (v1)
 
-- Mutating operations (triage is read-only)
+- Mutating operations (kubediag is read-only)
 - Operator/CRD-specific rules (Crossplane, Istio, cert-manager) — v2 roadmap
 - LLM-powered explanation — architecture leaves a pluggable explainer hook
 - Log aggregation / indexing

@@ -21,7 +21,7 @@
 
 ## Control flow
 
-For `triage pod foo -n bar`:
+For `kubediag pod foo -n bar`:
 
 1. `cmd/pod.go` parses flags and builds `Target{Kind:Pod, Namespace:"bar", Name:"foo"}`.
 2. `internal/cli.RunDiagnosis()` creates a `kube.Client` from the kubeconfig flags and calls `engine.Run()`.
@@ -61,7 +61,7 @@ Thin wrapper around client-go:
 
 - `text.go` — ANSI-colored terminal renderer.
 - `json.go` — JSON renderer (schema-stable).
-- `markdown.go` — Markdown renderer for `triage report`.
+- `markdown.go` — Markdown renderer for `kubediag report`.
 - `output.go` — `ParseFormat()`, `Render()` dispatcher, `RenderOptions`.
 
 ### `internal/config`
@@ -91,7 +91,7 @@ func (r *myRule) Meta() findings.RuleMeta {
         Category: findings.CategoryRuntime,
         Severity: findings.SeverityHigh,
         Scopes:   []findings.TargetKind{findings.TargetKindPod},
-        Description: `Multiline description shown by triage rules explain.`,
+        Description: `Multiline description shown by kubediag rules explain.`,
         Priority: 80,
     }
 }
@@ -114,12 +114,12 @@ func (r *myRule) Evaluate(ctx context.Context, rc *Context) ([]findings.Finding,
 
 ## Design decisions
 
-**No informers.** triage is a one-shot CLI. Informers have startup latency (~1s) which is unacceptable for a diagnostic tool targeting sub-2s response times. Plain `Get`/`List` calls with the request-scoped cache are sufficient.
+**No informers.** kubediag is a one-shot CLI. Informers have startup latency (~1s) which is unacceptable for a diagnostic tool targeting sub-2s response times. Plain `Get`/`List` calls with the request-scoped cache are sufficient.
 
 **Rules as Go code, not YAML.** For v1, rules are statically compiled Go. YAML rule packs are roadmapped for v0.3.0. The `Rule` interface makes this extensible without changing the engine.
 
-**Single binary, two names.** The same binary behaves as `kubectl-triage` when `os.Args[0]` starts with `kubectl-` or `KREW_PLUGIN_NAME` is set. No conditional compilation.
+**Single binary, two names.** The same binary behaves as `kubectl-kubediag` when `os.Args[0]` starts with `kubectl-` or `KREW_PLUGIN_NAME` is set. No conditional compilation.
 
 **Color from one place.** `internal/cli.ResolveColor()` is the only function that decides color on/off. It reads isatty, `NO_COLOR`, `FORCE_COLOR`, config, and `--no-color`. All renderers receive a bool.
 
-**Exit codes are meaningful.** `0` = no findings at or above threshold. `1` = findings present. `2` = CLI usage error. `3` = cluster access error. `10` = internal error. Scripts can `if triage pod foo; then ...` reliably.
+**Exit codes are meaningful.** `0` = no findings at or above threshold. `1` = findings present. `2` = CLI usage error. `3` = cluster access error. `10` = internal error. Scripts can `if kubediag pod foo; then ...` reliably.

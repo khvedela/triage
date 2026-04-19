@@ -1,4 +1,4 @@
-// Package cmd implements the triage command tree.
+// Package cmd implements the kubediag command tree.
 //
 // Root wires global flags, loads configuration, sets up the logger, and
 // attaches a resolved *cli.Options to each subcommand's context via
@@ -17,9 +17,9 @@ import (
 	"github.com/spf13/viper"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/khvedela/triage/internal/cli"
-	"github.com/khvedela/triage/internal/config"
-	"github.com/khvedela/triage/internal/logging"
+	"github.com/khvedela/kubediag/internal/cli"
+	"github.com/khvedela/kubediag/internal/config"
+	"github.com/khvedela/kubediag/internal/logging"
 )
 
 // Version metadata. Overridden via -ldflags at build time.
@@ -130,7 +130,7 @@ func NewRootCmd() *cobra.Command {
 	// Kube/kubectl-style flags (--kubeconfig, --context, --namespace/-n, etc.)
 	kubeFlags.AddFlags(root.PersistentFlags())
 
-	// triage-specific persistent flags — also bound into viper immediately so
+	// kubediag-specific persistent flags — also bound into viper immediately so
 	// flag values take precedence over config-file values.
 	pf := root.PersistentFlags()
 
@@ -161,7 +161,7 @@ func NewRootCmd() *cobra.Command {
 	pf.DurationVar(&timeout, "timeout", 15*time.Second, "overall cluster-call timeout")
 	_ = v.BindPFlag("timeout", pf.Lookup("timeout"))
 
-	pf.StringVar(&configPath, "config", "", "config file (default ~/.config/triage/config.yaml)")
+	pf.StringVar(&configPath, "config", "", "config file (default ~/.config/kubediag/config.yaml)")
 
 	// Hide low-signal kubectl flags from --help to reduce noise.
 	for _, name := range []string{
@@ -196,12 +196,12 @@ func derefStr(p *string) string {
 	return *p
 }
 
-// rootUse returns "kubectl triage" when invoked as a kubectl plugin.
+// rootUse returns "kubectl kubediag" when invoked as a kubectl plugin.
 func rootUse() string {
 	if isKubectlPluginMode() {
-		return "kubectl triage"
+		return "kubectl kubediag"
 	}
-	return "triage"
+	return "kubediag"
 }
 
 func isKubectlPluginMode() bool {
@@ -213,17 +213,17 @@ func isKubectlPluginMode() bool {
 }
 
 func rootLongDescription() string {
-	return `triage diagnoses broken Kubernetes workloads.
+	return `kubediag diagnoses broken Kubernetes workloads.
 
 It cross-references pod status, events, owner refs, services, endpoints, PVCs,
 and RBAC in one pass and returns ranked findings with evidence and the exact
 next commands to run.
 
 Examples:
-  triage pod my-pod -n default
-  triage deployment web -n prod
-  triage namespace prod
-  triage cluster
-  kubectl triage pod my-pod -n default   # when installed as a plugin
+  kubediag pod my-pod -n default
+  kubediag deployment web -n prod
+  kubediag namespace prod
+  kubediag cluster
+  kubectl kubediag pod my-pod -n default   # when installed as a plugin
 `
 }

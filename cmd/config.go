@@ -10,14 +10,14 @@ import (
 	"github.com/spf13/viper"
 	"sigs.k8s.io/yaml"
 
-	"github.com/khvedela/triage/internal/cli"
-	"github.com/khvedela/triage/internal/config"
+	"github.com/khvedela/kubediag/internal/cli"
+	"github.com/khvedela/kubediag/internal/config"
 )
 
 func newConfigCmd(_ *viper.Viper) *cobra.Command {
 	c := &cobra.Command{
 		Use:   "config",
-		Short: "View or initialize triage configuration",
+		Short: "View or initialize kubediag configuration",
 	}
 	c.AddCommand(newConfigViewCmd(), newConfigInitCmd(), newConfigPathCmd())
 	return c

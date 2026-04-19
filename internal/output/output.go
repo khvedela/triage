@@ -12,7 +12,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 // Format enumerates supported output formats.

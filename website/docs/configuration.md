@@ -11,7 +11,7 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
 <DocHero
   eyebrow="Configuration"
   title="One config model, four layers of precedence."
-  lede="triage configuration is intentionally shallow. The important behavior is precedence: flags override environment variables, environment variables override the config file, and the config file overrides defaults. That makes the tool predictable in local shells, CI jobs, and incident automation."
+  lede="kubediag configuration is intentionally shallow. The important behavior is precedence: flags override environment variables, environment variables override the config file, and the config file overrides defaults. That makes the tool predictable in local shells, CI jobs, and incident automation."
   meta={["Flags > env > file > defaults", "~/.config/triage/config.yaml", "Same config across scopes"]} />
 
 <InfoGrid
@@ -44,8 +44,8 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
   title="Inspect the resolved path and the resolved values."
   description="These commands are the fastest way to debug configuration behavior before you start guessing about precedence."
   command={[
-    "triage config path",
-    "triage config view"
+    "kubediag config path",
+    "kubediag config view"
   ]}
   caption="`config view` includes provenance, which makes it obvious whether a value came from a flag, env var, file, or default." />
 
@@ -101,12 +101,12 @@ namespaces:
 
 | Env var | Config key |
 | --- | --- |
-| `TRIAGE_OUTPUT` | `output` |
-| `TRIAGE_COLOR` | `color` |
-| `TRIAGE_SEVERITY_MIN` | `severityMin` |
-| `TRIAGE_CONFIDENCE_MIN` | `confidenceMin` |
-| `TRIAGE_MAX_FINDINGS` | `maxFindings` |
-| `TRIAGE_TIMEOUT` | `timeout` |
+| `KUBEDIAG_OUTPUT` | `output` |
+| `KUBEDIAG_COLOR` | `color` |
+| `KUBEDIAG_SEVERITY_MIN` | `severityMin` |
+| `KUBEDIAG_CONFIDENCE_MIN` | `confidenceMin` |
+| `KUBEDIAG_MAX_FINDINGS` | `maxFindings` |
+| `KUBEDIAG_TIMEOUT` | `timeout` |
 | `NO_COLOR` | Disables color by convention |
 
 ## When to use flags instead
@@ -118,4 +118,4 @@ Use flags when the value is specific to one run, such as:
 - lowering `--max-findings` when only the top-ranked items matter
 - pointing at a temporary config file with `--config`
 
-The fewer persistent surprises the tool has, the more trustworthy it is under pressure. That is why triage keeps the config surface small and the precedence model explicit.
+The fewer persistent surprises the tool has, the more trustworthy it is under pressure. That is why kubediag keeps the config surface small and the precedence model explicit.

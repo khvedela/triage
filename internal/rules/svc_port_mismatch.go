@@ -8,7 +8,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 func init() { Register(&svcPortMismatch{}) }

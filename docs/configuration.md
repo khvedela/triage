@@ -6,9 +6,9 @@
 
 Default: `$XDG_CONFIG_HOME/triage/config.yaml` (usually `~/.config/triage/config.yaml`).
 
-Run `triage config path` to print the resolved path.  
-Run `triage config init` to write a commented template.  
-Run `triage config view` to see the current resolved config with provenance.
+Run `kubediag config path` to print the resolved path.  
+Run `kubediag config init` to write a commented template.  
+Run `kubediag config view` to see the current resolved config with provenance.
 
 ## Reference
 
@@ -53,14 +53,14 @@ namespaces:
 
 | Env var | Config key |
 |---------|-----------|
-| `TRIAGE_OUTPUT` | `output` |
-| `TRIAGE_COLOR` | `color` |
-| `TRIAGE_SEVERITY_MIN` | `severityMin` |
-| `TRIAGE_CONFIDENCE_MIN` | `confidenceMin` |
-| `TRIAGE_MAX_FINDINGS` | `maxFindings` |
-| `TRIAGE_TIMEOUT` | `timeout` |
+| `KUBEDIAG_OUTPUT` | `output` |
+| `KUBEDIAG_COLOR` | `color` |
+| `KUBEDIAG_SEVERITY_MIN` | `severityMin` |
+| `KUBEDIAG_CONFIDENCE_MIN` | `confidenceMin` |
+| `KUBEDIAG_MAX_FINDINGS` | `maxFindings` |
+| `KUBEDIAG_TIMEOUT` | `timeout` |
 | `NO_COLOR` | disables color (standard convention) |
 
 ## CLI flags
 
-All flags are defined on the root command and inherited by all subcommands. Run `triage --help` for the full list.
+All flags are defined on the root command and inherited by all subcommands. Run `kubediag --help` for the full list.

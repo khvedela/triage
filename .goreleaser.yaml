@@ -1,15 +1,15 @@
 version: 2
 
-project_name: triage
+project_name: kubediag
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: triage
+  - id: kubediag
     main: ./main.go
-    binary: triage
+    binary: kubediag
     env:
       - CGO_ENABLED=0
     goos:
@@ -29,7 +29,7 @@ builds:
       - -X main.buildDate={{.Date}}
 
 archives:
-  - id: triage
+  - id: kubediag
     builds: [triage]
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
@@ -61,7 +61,7 @@ sboms:
 release:
   github:
     owner: khvedela
-    name: triage
+    name: kubediag
   draft: false
   prerelease: auto
   name_template: "{{.ProjectName}} {{.Tag}}"

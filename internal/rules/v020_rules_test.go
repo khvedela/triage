@@ -11,9 +11,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/kube"
-	"github.com/khvedela/triage/internal/rules"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/kube"
+	"github.com/khvedela/kubediag/internal/rules"
 )
 
 // ─── helpers ──────────────────────────────────────────────────────────────────

@@ -3,13 +3,13 @@ import type * as Preset from "@docusaurus/preset-classic";
 import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
-  title: "triage",
+  title: "kubediag",
   tagline: "Ranked Kubernetes diagnosis with evidence, confidence, and the next command to run.",
   favicon: "img/favicon.svg",
   url: "https://khvedela.github.io",
   baseUrl: "/triage/",
   organizationName: "khvedela",
-  projectName: "triage",
+  projectName: "kubediag",
   trailingSlash: false,
   onBrokenLinks: "throw",
   markdown: {
@@ -46,7 +46,7 @@ const config: Config = {
             }
           },
           includeCurrentVersion: true,
-          editUrl: "https://github.com/khvedela/triage/tree/main/website/",
+          editUrl: "https://github.com/khvedela/kubediag/tree/main/website/",
           showLastUpdateTime: false
         },
         blog: false,
@@ -59,9 +59,9 @@ const config: Config = {
   themeConfig: {
     image: "img/logo.svg",
     navbar: {
-      title: "triage",
+      title: "kubediag",
       logo: {
-        alt: "triage logo",
+        alt: "kubediag logo",
         src: "img/logo.svg"
       },
       items: [
@@ -78,13 +78,13 @@ const config: Config = {
           position: "right",
           dropdownItemsAfter: [
             {
-              to: "https://github.com/khvedela/triage/releases",
+              to: "https://github.com/khvedela/kubediag/releases",
               label: "GitHub releases"
             }
           ]
         },
         {
-          href: "https://github.com/khvedela/triage",
+          href: "https://github.com/khvedela/kubediag",
           label: "GitHub",
           position: "right"
         }
@@ -111,13 +111,13 @@ const config: Config = {
         {
           title: "Project",
           items: [
-            { label: "Repository", href: "https://github.com/khvedela/triage" },
-            { label: "Issues", href: "https://github.com/khvedela/triage/issues" },
-            { label: "Security", href: "https://github.com/khvedela/triage/security" }
+            { label: "Repository", href: "https://github.com/khvedela/kubediag" },
+            { label: "Issues", href: "https://github.com/khvedela/kubediag/issues" },
+            { label: "Security", href: "https://github.com/khvedela/kubediag/security" }
           ]
         }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} triage contributors.`
+      copyright: `Copyright © ${new Date().getFullYear()} kubediag contributors.`
     },
     prism: {
       theme: prismThemes.github,

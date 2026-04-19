@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/kube"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/kube"
 )
 
 func init() { Register(&accessRBAC{}) }
@@ -15,7 +15,7 @@ type accessRBAC struct{}
 func (r *accessRBAC) Meta() findings.RuleMeta {
 	return findings.RuleMeta{
 		ID:       "TRG-ACCESS-INSUFFICIENT-READ",
-		Title:    "triage has insufficient RBAC permissions; diagnosis is incomplete",
+		Title:    "kubediag has insufficient RBAC permissions; diagnosis is incomplete",
 		Category: findings.CategoryAccess,
 		Severity: findings.SeverityInfo,
 		Scopes: []findings.TargetKind{
@@ -24,11 +24,11 @@ func (r *accessRBAC) Meta() findings.RuleMeta {
 			findings.TargetKindNamespace,
 			findings.TargetKindCluster,
 		},
-		Description: `triage was denied read access to one or more Kubernetes resources needed for
+		Description: `kubediag was denied read access to one or more Kubernetes resources needed for
 a complete diagnosis. Results may be incomplete.
 
 This is not necessarily a problem with your workloads — it is a signal that
-the user or service account running triage does not have the required RBAC
+the user or service account running kubediag does not have the required RBAC
 permissions to perform a full inspection.
 
 To diagnose with full fidelity, grant read (get/list) on: pods, events,
@@ -85,8 +85,8 @@ func (r *accessRBAC) Evaluate(ctx context.Context, rc *Context) ([]findings.Find
 	return []findings.Finding{{
 		ID:         "TRG-ACCESS-INSUFFICIENT-READ",
 		RuleID:     "TRG-ACCESS-INSUFFICIENT-READ",
-		Title:      fmt.Sprintf("triage is missing RBAC access to %d resource type(s)", len(denied)),
-		Summary:    fmt.Sprintf("Diagnosis is incomplete because triage cannot read: %v. Other rule findings may have lower confidence.", denied),
+		Title:      fmt.Sprintf("kubediag is missing RBAC access to %d resource type(s)", len(denied)),
+		Summary:    fmt.Sprintf("Diagnosis is incomplete because kubediag cannot read: %v. Other rule findings may have lower confidence.", denied),
 		Category:   findings.CategoryAccess,
 		Severity:   findings.SeverityInfo,
 		Confidence: findings.ConfidenceHigh,

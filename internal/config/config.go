@@ -1,12 +1,12 @@
-// Package config loads and resolves triage configuration.
+// Package config loads and resolves kubediag configuration.
 //
 // Resolution precedence (highest to lowest):
 //  1. Command-line flags (bound via pflag)
-//  2. Environment variables (TRIAGE_*)
+//  2. Environment variables (KUBEDIAG_*)
 //  3. Config file ($XDG_CONFIG_HOME/triage/config.yaml)
 //  4. Built-in defaults
 //
-// The Provenance map tracks where each value came from, for `triage config view`.
+// The Provenance map tracks where each value came from, for `kubediag config view`.
 package config
 
 import (
@@ -20,7 +20,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config is the resolved runtime configuration for a triage invocation.
+// Config is the resolved runtime configuration for a kubediag invocation.
 type Config struct {
 	Output         string        `mapstructure:"output"         yaml:"output"`
 	Color          string        `mapstructure:"color"          yaml:"color"`
@@ -133,13 +133,13 @@ func Load(v *viper.Viper, opts LoadOptions) (Config, error) {
 // Returns "" if no reasonable default can be determined.
 func DefaultPath() string {
 	if xdg := os.Getenv("XDG_CONFIG_HOME"); xdg != "" {
-		return filepath.Join(xdg, "triage", "config.yaml")
+		return filepath.Join(xdg, "kubediag", "config.yaml")
 	}
 	home, err := os.UserHomeDir()
 	if err != nil || home == "" {
 		return ""
 	}
-	return filepath.Join(home, ".config", "triage", "config.yaml")
+	return filepath.Join(home, ".config", "kubediag", "config.yaml")
 }
 
 func buildProvenance(v *viper.Viper, configFile string) map[string]string {
@@ -157,11 +157,11 @@ func buildProvenance(v *viper.Viper, configFile string) map[string]string {
 	return prov
 }
 
-// Template returns a commented YAML template for `triage config init`.
+// Template returns a commented YAML template for `kubediag config init`.
 func Template() string {
-	return `# triage configuration
+	return `# kubediag configuration
 # Location: $XDG_CONFIG_HOME/triage/config.yaml (default: ~/.config/triage/config.yaml)
-# Every key is also overridable via flag or env var (TRIAGE_<UPPER_SNAKE_KEY>).
+# Every key is also overridable via flag or env var (KUBEDIAG_<UPPER_SNAKE_KEY>).
 
 # Default output format: text | json | markdown
 output: text
@@ -188,13 +188,13 @@ includeRelated: true
 timeout: 15s
 
 rules:
-  # Disable specific rules by ID. Use ` + "`triage rules list`" + ` to see all IDs.
+  # Disable specific rules by ID. Use ` + "`kubediag rules list`" + ` to see all IDs.
   disabled: []
   # If non-empty, only these rule IDs will run.
   enabled: []
 
 namespaces:
-  # Namespaces excluded from ` + "`triage cluster`" + ` and ` + "`triage namespace`" + ` scans
+  # Namespaces excluded from ` + "`kubediag cluster`" + ` and ` + "`kubediag namespace`" + ` scans
   # when no target is explicitly specified.
   exclude:
     - kube-system

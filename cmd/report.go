@@ -3,11 +3,11 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/khvedela/triage/internal/cli"
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/cli"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
-// newReportCmd implements `triage report {namespace,cluster}` — full markdown
+// newReportCmd implements `kubediag report {namespace,cluster}` — full markdown
 // diagnostic reports with table of contents, tuned defaults, and generous
 // max-findings caps.
 func newReportCmd() *cobra.Command {

@@ -30,19 +30,19 @@ func newCompletionCmd() *cobra.Command {
 	c.Long = `Generate shell completion script. Source the output into your shell:
 
     # bash (one-shot)
-    source <(triage completion bash)
+    source <(kubediag completion bash)
 
     # bash (persistent)
-    triage completion bash > /etc/bash_completion.d/triage
+    kubediag completion bash > /etc/bash_completion.d/kubediag
 
     # zsh (one-shot)
-    source <(triage completion zsh)
+    source <(kubediag completion zsh)
 
     # zsh (persistent, oh-my-zsh)
-    triage completion zsh > "${fpath[1]}/_triage"
+    kubediag completion zsh > "${fpath[1]}/_triage"
 
     # fish
-    triage completion fish | source
+    kubediag completion fish | source
 `
 	return c
 }

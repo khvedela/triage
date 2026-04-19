@@ -5,11 +5,11 @@ import (
 	"io"
 	"strings"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 // MarkdownRenderer emits an embeddable markdown report. Useful for pasting
-// into incident tickets or saving via `triage report namespace <ns>`.
+// into incident tickets or saving via `kubediag report namespace <ns>`.
 type MarkdownRenderer struct {
 	opts RenderOptions
 }
@@ -19,7 +19,7 @@ func NewMarkdownRenderer(opts RenderOptions) *MarkdownRenderer { return &Markdow
 
 // Render writes a markdown document to w.
 func (m *MarkdownRenderer) Render(w io.Writer, r findings.Report) error {
-	fmt.Fprintf(w, "# Triage report — %s\n\n", targetHeader(r.Target))
+	fmt.Fprintf(w, "# Kubediag report — %s\n\n", targetHeader(r.Target))
 	fmt.Fprintf(w, "_Generated at %s (%dms)_\n\n", r.GeneratedAt.Format("2006-01-02 15:04:05 MST"), r.DurationMs)
 
 	if len(r.Findings) == 0 {

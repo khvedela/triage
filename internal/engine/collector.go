@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/kube"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/kube"
 )
 
 // Collector prefetches related resources for a target into the shared cache.

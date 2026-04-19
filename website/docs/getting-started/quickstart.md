@@ -1,6 +1,6 @@
 ---
 title: Quickstart
-description: Run triage against a pod, deployment, namespace, or cluster and inspect the outputs.
+description: Run kubediag against a pod, deployment, namespace, or cluster and inspect the outputs.
 slug: /getting-started/quickstart
 ---
 
@@ -12,7 +12,7 @@ import TerminalFrame from "@site/src/components/TerminalFrame";
 <DocHero
   eyebrow="First run"
   title="Learn the incident loop, not just the command syntax."
-  lede="The fastest way to understand triage is to run it against one broken workload, inspect the top-ranked finding, and follow the next commands it suggests. That loop is the product: symptom to evidence to action without manual archaeology."
+  lede="The fastest way to understand kubediag is to run it against one broken workload, inspect the top-ranked finding, and follow the next commands it suggests. That loop is the product: symptom to evidence to action without manual archaeology."
   meta={["pod, deployment, namespace, cluster", "text, json, markdown", "stable rule IDs"]} />
 
 <InfoGrid
@@ -26,20 +26,20 @@ import TerminalFrame from "@site/src/components/TerminalFrame";
     {
       label: "Read the top finding",
       title: "Use severity and confidence as the entrypoint",
-      body: "The first finding should tell you what triage believes is driving the incident and how certain it is."
+      body: "The first finding should tell you what kubediag believes is driving the incident and how certain it is."
     },
     {
       label: "Confirm quickly",
       title: "Paste the suggested next commands",
-      body: "triage shortens the gap between diagnosis and confirmation by embedding the most useful kubectl follow-ups directly in the output."
+      body: "kubediag shortens the gap between diagnosis and confirmation by embedding the most useful kubectl follow-ups directly in the output."
     }
   ]} />
 
 <CommandBlock
   eyebrow="Pod diagnosis"
   title="Start with the smallest useful scope."
-  description="For a broken workload, the pod view is the quickest way to see how triage structures a diagnosis."
-  command="triage pod my-pod -n default"
+  description="For a broken workload, the pod view is the quickest way to see how kubediag structures a diagnosis."
+  command="kubediag pod my-pod -n default"
   caption="If the problem is rollout- or service-shaped rather than pod-shaped, move up to deployment or namespace scope after this first run." />
 
 <TerminalFrame label="triage:text">
@@ -64,15 +64,15 @@ import TerminalFrame from "@site/src/components/TerminalFrame";
   eyebrow="Deployment scope"
   title="Use deployment diagnosis when the failure is about rollout progress."
   description="This view combines deployment-level findings and the pod-level signals underneath them."
-  command="triage deployment web -n prod" />
+  command="kubediag deployment web -n prod" />
 
 <CommandBlock
   eyebrow="Namespace and cluster scope"
   title="Use wider scopes for fleet-wide health signals."
   description="Namespace and cluster modes surface warning events, service issues, and node pressure patterns that are easy to miss when starting from one pod."
   command={[
-    "triage namespace prod",
-    "triage cluster"
+    "kubediag namespace prod",
+    "kubediag cluster"
   ]} />
 
 ## Switch renderer based on audience
@@ -82,9 +82,9 @@ import TerminalFrame from "@site/src/components/TerminalFrame";
   title="Choose the renderer that matches the next consumer."
   description="Use JSON for automation, markdown for reports, and terminal text for live incident response."
   command={[
-    "triage pod my-pod -o json",
-    "triage namespace prod -o markdown",
-    "triage report namespace prod > triage-report.md"
+    "kubediag pod my-pod -o json",
+    "kubediag namespace prod -o markdown",
+    "kubediag report namespace prod > triage-report.md"
   ]} />
 
 ## Inspect and explain rules
@@ -94,8 +94,8 @@ import TerminalFrame from "@site/src/components/TerminalFrame";
   title="Use stable rule IDs as a reference surface."
   description="Rules are public identifiers, which makes them useful in alerts, runbooks, and postmortems."
   command={[
-    "triage rules list",
-    "triage rules explain TRG-POD-CRASHLOOPBACKOFF"
+    "kubediag rules list",
+    "kubediag rules explain TRG-POD-CRASHLOOPBACKOFF"
   ]} />
 
 ## Keep the feedback loop tight

@@ -23,7 +23,7 @@ import RulesCategoryNav from "@site/src/components/docs/RulesCategoryNav";
 
 | Rule ID | Title | Severity | Confidence | Scopes |
 |---------|-------|----------|------------|--------|
-| [TRG-ACCESS-INSUFFICIENT-READ](#trg-access-insufficient-read) | triage has insufficient RBAC permissions; diagnosis is incomplete | info | — | Pod, Deployment, Namespace, Cluster |
+| [TRG-ACCESS-INSUFFICIENT-READ](#trg-access-insufficient-read) | kubediag has insufficient RBAC permissions; diagnosis is incomplete | info | — | Pod, Deployment, Namespace, Cluster |
 | [TRG-CLUSTER-NODE-NOT-READY](#trg-cluster-node-not-ready) | One or more cluster nodes are NotReady | critical | — | Cluster, Namespace |
 | [TRG-CLUSTER-NODE-PRESSURE](#trg-cluster-node-pressure) | One or more nodes have Memory, Disk, or PID pressure | high | — | Cluster, Namespace |
 | [TRG-DEPLOY-ROLLOUT-STUCK](#trg-deploy-rollout-stuck) | Deployment rollout has exceeded its progress deadline | critical | — | Deployment |
@@ -51,17 +51,17 @@ import RulesCategoryNav from "@site/src/components/docs/RulesCategoryNav";
 
 ### TRG-ACCESS-INSUFFICIENT-READ
 
-**triage has insufficient RBAC permissions; diagnosis is incomplete**
+**kubediag has insufficient RBAC permissions; diagnosis is incomplete**
 
 - **Severity:** info
 - **Scopes:** Pod, Deployment, Namespace, Cluster
 - **Docs:** https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 
-triage was denied read access to one or more Kubernetes resources needed for
+kubediag was denied read access to one or more Kubernetes resources needed for
 a complete diagnosis. Results may be incomplete.
 
 This is not necessarily a problem with your workloads — it is a signal that
-the user or service account running triage does not have the required RBAC
+the user or service account running kubediag does not have the required RBAC
 permissions to perform a full inspection.
 
 To diagnose with full fidelity, grant read (get/list) on: pods, events,
@@ -317,7 +317,7 @@ This rule aggregates events by reason and provides a summary — it does not
 diagnose individual pods, but gives a namespace-level picture of what is
 failing.
 
-Use this as a quick scan before running more specific "triage pod" commands.
+Use this as a quick scan before running more specific "kubediag pod" commands.
 
 ### TRG-POD-CRASHLOOPBACKOFF
 

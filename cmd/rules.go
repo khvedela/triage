@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/khvedela/triage/internal/findings"
-	"github.com/khvedela/triage/internal/rules"
+	"github.com/khvedela/kubediag/internal/findings"
+	"github.com/khvedela/kubediag/internal/rules"
 )
 
 func newRulesCmd() *cobra.Command {
@@ -53,7 +53,7 @@ func newRulesExplainCmd() *cobra.Command {
 			id := args[0]
 			r := rules.Get(id)
 			if r == nil {
-				return fmt.Errorf("rule %q not found; try `triage rules list`", id)
+				return fmt.Errorf("rule %q not found; try `kubediag rules list`", id)
 			}
 			m := r.Meta()
 			w := cmd.OutOrStdout()

@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: Internal design of the triage CLI, cache, rule engine, and renderers.
+description: Internal design of the kubediag CLI, cache, rule engine, and renderers.
 slug: /architecture
 ---
 
@@ -12,7 +12,7 @@ import ArchitectureFlow from "@site/src/components/docs/ArchitectureFlow";
 <DocHero
   eyebrow="Architecture"
   title="A one-shot diagnostic pipeline, optimized for fast operator feedback."
-  lede="triage is not a long-running service and not an informer-based control plane. It is a focused CLI that builds one diagnosis context, evaluates compiled rules against that context, ranks the findings, and renders the result in the format the next consumer expects."
+  lede="kubediag is not a long-running service and not an informer-based control plane. It is a focused CLI that builds one diagnosis context, evaluates compiled rules against that context, ranks the findings, and renders the result in the format the next consumer expects."
   meta={["One-shot CLI", "Request-scoped cache", "Compiled Go rules", "Shared finding model"]} />
 
 <ArchitectureFlow />
@@ -41,7 +41,7 @@ import ArchitectureFlow from "@site/src/components/docs/ArchitectureFlow";
 
 <CommandBlock
   eyebrow="End-to-end pass"
-  title="What happens during `triage pod foo -n bar`."
+  title="What happens during `kubediag pod foo -n bar`."
   description="The product is easier to reason about if you think in stages: target resolution, cache warm-up, rule evaluation, ranking, and rendering."
   command={[
     "1. Parse flags and resolve the target scope.",
@@ -77,7 +77,7 @@ The CLI returns meaningful status codes so scripts can tell the difference betwe
 
 ### One binary, two names
 
-The same binary behaves as `triage` and `kubectl-triage`. That reduces packaging complexity while preserving a kubectl-native experience.
+The same binary behaves as `triage` and `kubectl-kubediag`. That reduces packaging complexity while preserving a kubectl-native experience.
 
 ## Testing strategy
 

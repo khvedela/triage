@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/khvedela/triage/internal/findings"
+	"github.com/khvedela/kubediag/internal/findings"
 )
 
 func init() { Register(&nsWarningEvents{}) }
@@ -25,7 +25,7 @@ This rule aggregates events by reason and provides a summary — it does not
 diagnose individual pods, but gives a namespace-level picture of what is
 failing.
 
-Use this as a quick scan before running more specific "triage pod" commands.`,
+Use this as a quick scan before running more specific "kubediag pod" commands.`,
 		DocsLinks: []string{
 			"https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-and-finding-resources",
 		},
@@ -114,10 +114,10 @@ func (r *nsWarningEvents) Evaluate(ctx context.Context, rc *Context) ([]findings
 		Target:     rc.Target,
 		Evidence:   ev,
 		Remediation: findings.Remediation{
-			Explanation: "Run per-workload triage commands for the objects with the most warnings.",
+			Explanation: "Run per-workload kubediag commands for the objects with the most warnings.",
 			NextCommands: []string{
 				fmt.Sprintf("kubectl get events -n %s --field-selector type=Warning --sort-by='.lastTimestamp'", ns),
-				fmt.Sprintf("triage pod <pod-name> -n %s", ns),
+				fmt.Sprintf("kubediag pod <pod-name> -n %s", ns),
 			},
 		},
 	}}, nil
