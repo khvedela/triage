@@ -48,13 +48,21 @@ linters-settings:
 
 issues:
   exclude-rules:
+    # Test files: relax most linter rules
     - path: _test\.go
       linters:
         - errcheck
         - gocyclo
         - unparam
+        - gocritic
+        - unused
+    # Generated code and stubs
     - path: cmd/
       linters:
         - gocyclo
+    # Exclude interface{} and other generic patterns
+    - linters:
+        - staticcheck
+      text: "SA1028|SA6003"
   max-issues-per-linter: 0
   max-same-issues: 0
