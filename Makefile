@@ -1,13 +1,13 @@
-# triage — Kubernetes diagnostic CLI
-# https://github.com/khvedela/triage
+# kubediag — Kubernetes diagnostic CLI
+# https://github.com/khvedela/kubediag
 
 # -----------------------------------------------------------------------------
 # Variables
 # -----------------------------------------------------------------------------
-MODULE        := github.com/khvedela/triage
+MODULE        := github.com/khvedela/kubediag
 BIN_DIR       := bin
-BINARY        := $(BIN_DIR)/triage
-PLUGIN_BINARY := $(BIN_DIR)/kubectl-triage
+BINARY        := $(BIN_DIR)/kubediag
+PLUGIN_BINARY := $(BIN_DIR)/kubectl-kubediag
 
 VERSION   ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
 COMMIT    ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo "none")
@@ -29,13 +29,13 @@ TESTFLAGS ?= -race -count=1
 all: lint test build
 
 .PHONY: build
-build: ## Build the triage binary
+build: ## Build the kubediag binary
 	@mkdir -p $(BIN_DIR)
 	$(GO) build $(GOFLAGS) -ldflags '$(LDFLAGS)' -o $(BINARY) ./
 
 .PHONY: build-plugin
-build-plugin: build ## Build kubectl-triage (symlink to same binary)
-	@ln -sf triage $(PLUGIN_BINARY)
+build-plugin: build ## Build kubectl-kubediag (symlink to same binary)
+	@ln -sf kubediag $(PLUGIN_BINARY)
 
 .PHONY: install
 install: ## go install into $GOPATH/bin

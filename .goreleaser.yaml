@@ -30,7 +30,7 @@ builds:
 
 archives:
   - id: kubediag
-    builds: [triage]
+    builds: [kubediag]
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
       - goos: windows
