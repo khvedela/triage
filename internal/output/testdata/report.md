@@ -5,10 +5,19 @@ _Generated at 2024-01-15 10:30:00 UTC (42ms)_
 **Overall severity:** `critical`  
 **Findings:** 2
 
+## Contents
+
+1. [Container "app" is in CrashLoopBackOff (5 restarts)](#1-container-app-is-in-crashloopbackoff-5-restarts)
+2. [Container "app" was OOMKilled](#2-container-app-was-oomkilled)
+
+## Summary
+
 | # | Severity | Confidence | Rule | Title |
 |---|----------|-----------|------|-------|
 | 1 | critical | high | `TRG-POD-CRASHLOOPBACKOFF` | Container "app" is in CrashLoopBackOff (5 restarts) |
 | 2 | high | high | `TRG-POD-OOMKILLED` | Container "app" was OOMKilled |
+
+## Findings
 
 ## 1. Container "app" is in CrashLoopBackOff (5 restarts)
 

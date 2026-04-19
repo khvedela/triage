@@ -29,7 +29,22 @@ const config: Config = {
         docs: {
           routeBasePath: "docs",
           sidebarPath: "./sidebars.ts",
-          lastVersion: "current",
+          lastVersion: "v0.2.0",
+          versions: {
+            current: {
+              label: "Next (unreleased)",
+              path: "next",
+              banner: "unreleased"
+            },
+            "v0.2.0": {
+              label: "v0.2.0",
+              path: "/"
+            },
+            "v0.1.0": {
+              label: "v0.1.0",
+              path: "v0.1.0"
+            }
+          },
           includeCurrentVersion: true,
           editUrl: "https://github.com/khvedela/triage/tree/main/website/",
           showLastUpdateTime: false

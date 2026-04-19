@@ -75,6 +75,7 @@ func (c *Collector) prefetchNamespace(ctx context.Context, ns string, events boo
 	_, _ = c.Cache.ListPods(ctx, ns)
 	_, _ = c.Cache.ListServices(ctx, ns)
 	_, _ = c.Cache.ListDeployments(ctx, ns)
+	_, _ = c.Cache.ListResourceQuotas(ctx, ns)
 	if events {
 		_, _ = c.Cache.ListEventsInNamespace(ctx, ns)
 	}
@@ -83,8 +84,9 @@ func (c *Collector) prefetchNamespace(ctx context.Context, ns string, events boo
 
 func (c *Collector) prefetchCluster(ctx context.Context, events bool) error {
 	_, _ = c.Cache.ListNodes(ctx)
+	_, _ = c.Cache.ListResourceQuotas(ctx, "") // all namespaces
 	if events {
-		_, _ = c.Cache.ListEventsInNamespace(ctx, "") // all namespaces
+		_, _ = c.Cache.ListEventsInNamespace(ctx, "kube-system")
 	}
 	return nil
 }

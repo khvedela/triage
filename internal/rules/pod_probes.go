@@ -64,7 +64,7 @@ func (r *podReadinessProbe) Evaluate(ctx context.Context, rc *Context) ([]findin
 			continue
 		}
 		// Check events for Unhealthy/readiness messages.
-		probeMsg := probeEventMsg(events, cs.Name, "Readiness")
+		probeMessages := probeEventMessages(events, cs.Name, "Readiness")
 
 		ns, name := rc.Target.Namespace, rc.Target.Name
 		ev := []findings.Evidence{
@@ -72,8 +72,8 @@ func (r *podReadinessProbe) Evaluate(ctx context.Context, rc *Context) ([]findin
 			{Kind: findings.EvidenceKindField, Source: fmt.Sprintf("pod.status.containerStatuses[%s].state.running", cs.Name), Value: "true"},
 			{Kind: findings.EvidenceKindComputed, Value: "Readiness probe: " + probeDesc(probe)},
 		}
-		if probeMsg != "" {
-			ev = append(ev, findings.Evidence{Kind: findings.EvidenceKindEvent, Value: probeMsg})
+		for _, msg := range probeMessages {
+			ev = append(ev, findings.Evidence{Kind: findings.EvidenceKindEvent, Value: msg})
 		}
 
 		out = append(out, findings.Finding{
@@ -303,16 +303,37 @@ func probeDesc(p *corev1.Probe) string {
 	return "unknown"
 }
 
-func probeEventMsg(events []eventsv1.Event, containerName, probeType string) string {
+// probeEventMessages returns up to 3 most-recent Unhealthy event messages for
+// the given probe type, deduplicated by message text.
+func probeEventMessages(events []eventsv1.Event, containerName, probeType string) []string {
+	seen := map[string]bool{}
+	var out []string
 	for i := len(events) - 1; i >= 0; i-- {
 		e := events[i]
 		if e.Reason != "Unhealthy" {
 			continue
 		}
 		note := strings.ToLower(e.Note)
-		if strings.Contains(note, strings.ToLower(probeType)+" probe") {
-			return e.Note
+		if !strings.Contains(note, strings.ToLower(probeType)+" probe") {
+			continue
 		}
+		if seen[e.Note] {
+			continue
+		}
+		seen[e.Note] = true
+		out = append(out, e.Note)
+		if len(out) >= 3 {
+			break
+		}
+	}
+	return out
+}
+
+// probeEventMsg returns the most-recent matching event message (single result).
+func probeEventMsg(events []eventsv1.Event, containerName, probeType string) string {
+	msgs := probeEventMessages(events, containerName, probeType)
+	if len(msgs) > 0 {
+		return msgs[0]
 	}
 	return ""
 }

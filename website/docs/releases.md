@@ -34,6 +34,17 @@ import CommandBlock from "@site/src/components/docs/CommandBlock";
     }
   ]} />
 
+## Latest release
+
+**v0.2.0** — Rule set expansion. Five new diagnostic rules, `triage report cluster`, markdown table of contents, and richer readiness probe sampling. See the [changelog](https://github.com/khvedela/triage/blob/main/CHANGELOG.md) for the full list.
+
+## Release history
+
+| Version | Highlights |
+| --- | --- |
+| **v0.2.0** | TRG-POD-EXIT-IMMEDIATE, TRG-SVC-PORT-MISMATCH, TRG-POD-BAD-ENV-REF, TRG-CLUSTER-QUOTA-EXHAUSTED, TRG-CLUSTER-APISERVER-LATENCY, `report cluster`, markdown ToC |
+| **v0.1.0** | Initial release — 23 rules, text/JSON/markdown output, kubectl plugin |
+
 ## Artifact names
 
 ```text

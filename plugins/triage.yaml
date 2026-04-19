@@ -3,7 +3,7 @@ kind: Plugin
 metadata:
   name: triage
 spec:
-  version: "{{ .TagName }}"
+  version: "v0.2.0"
   homepage: https://github.com/khvedela/triage
   shortDescription: "Diagnose broken Kubernetes workloads"
   description: |
@@ -16,43 +16,46 @@ spec:
       kubectl triage deployment <name> [-n namespace]
       kubectl triage namespace <ns>
       kubectl triage cluster
+      kubectl triage report namespace <ns>
+      kubectl triage report cluster
   caveats: |
     triage requires read access to pods, events, deployments, replicasets,
-    services, endpoints, configmaps, secrets, persistentvolumeclaims, and nodes.
-    Run `kubectl triage rules list` to see all available diagnostic rules.
+    services, endpoints, configmaps, secrets, persistentvolumeclaims, nodes,
+    and resourcequotas. Run `kubectl triage rules list` to see all 28
+    available diagnostic rules.
   platforms:
     - selector:
         matchLabels:
           os: linux
           arch: amd64
-      uri: https://github.com/khvedela/triage/releases/download/{{ .TagName }}/triage_linux_amd64.tar.gz
-      sha256: "{{ .linux_amd64_sha256 }}"
+      uri: https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_amd64.tar.gz
+      sha256: "PLACEHOLDER_LINUX_AMD64_SHA256"
       bin: triage
     - selector:
         matchLabels:
           os: linux
           arch: arm64
-      uri: https://github.com/khvedela/triage/releases/download/{{ .TagName }}/triage_linux_arm64.tar.gz
-      sha256: "{{ .linux_arm64_sha256 }}"
+      uri: https://github.com/khvedela/triage/releases/download/v0.2.0/triage_linux_arm64.tar.gz
+      sha256: "PLACEHOLDER_LINUX_ARM64_SHA256"
       bin: triage
     - selector:
         matchLabels:
           os: darwin
           arch: amd64
-      uri: https://github.com/khvedela/triage/releases/download/{{ .TagName }}/triage_darwin_amd64.tar.gz
-      sha256: "{{ .darwin_amd64_sha256 }}"
+      uri: https://github.com/khvedela/triage/releases/download/v0.2.0/triage_darwin_amd64.tar.gz
+      sha256: "PLACEHOLDER_DARWIN_AMD64_SHA256"
       bin: triage
     - selector:
         matchLabels:
           os: darwin
           arch: arm64
-      uri: https://github.com/khvedela/triage/releases/download/{{ .TagName }}/triage_darwin_arm64.tar.gz
-      sha256: "{{ .darwin_arm64_sha256 }}"
+      uri: https://github.com/khvedela/triage/releases/download/v0.2.0/triage_darwin_arm64.tar.gz
+      sha256: "PLACEHOLDER_DARWIN_ARM64_SHA256"
       bin: triage
     - selector:
         matchLabels:
           os: windows
           arch: amd64
-      uri: https://github.com/khvedela/triage/releases/download/{{ .TagName }}/triage_windows_amd64.zip
-      sha256: "{{ .windows_amd64_sha256 }}"
+      uri: https://github.com/khvedela/triage/releases/download/v0.2.0/triage_windows_amd64.zip
+      sha256: "PLACEHOLDER_WINDOWS_AMD64_SHA256"
       bin: triage.exe

@@ -36,6 +36,7 @@ type Interface interface {
 	ListServices(ctx context.Context, namespace string) ([]corev1.Service, error)
 	ListNetworkPolicies(ctx context.Context, namespace string) ([]networkingv1.NetworkPolicy, error)
 	ListNodes(ctx context.Context) ([]corev1.Node, error)
+	ListResourceQuotas(ctx context.Context, namespace string) ([]corev1.ResourceQuota, error)
 	ListEventsFor(ctx context.Context, kind, namespace, name string) ([]eventsv1.Event, error)
 	ListEventsInNamespace(ctx context.Context, namespace string) ([]eventsv1.Event, error)
 
@@ -165,6 +166,14 @@ func (c *clientgoClient) ListNetworkPolicies(ctx context.Context, ns string) ([]
 
 func (c *clientgoClient) ListNodes(ctx context.Context) ([]corev1.Node, error) {
 	l, err := c.cs.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+	return l.Items, nil
+}
+
+func (c *clientgoClient) ListResourceQuotas(ctx context.Context, ns string) ([]corev1.ResourceQuota, error) {
+	l, err := c.cs.CoreV1().ResourceQuotas(ns).List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

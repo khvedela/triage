@@ -28,8 +28,9 @@ type FakeClient struct {
 	pvcs          map[string]*corev1.PersistentVolumeClaim
 	namespaces    map[string]*corev1.Namespace
 	nodes         map[string]*corev1.Node
-	events        map[string][]eventsv1.Event // key = "kind|ns|name"
-	nsEvents      map[string][]eventsv1.Event // key = namespace
+	quotas        map[string][]corev1.ResourceQuota // key = namespace
+	events        map[string][]eventsv1.Event        // key = "kind|ns|name"
+	nsEvents      map[string][]eventsv1.Event        // key = namespace
 	netpols       map[string][]networkingv1.NetworkPolicy
 	logs          map[string]string
 	namespace     string
@@ -51,6 +52,7 @@ func NewFakeClient() *FakeClient {
 		pvcs:           map[string]*corev1.PersistentVolumeClaim{},
 		namespaces:     map[string]*corev1.Namespace{},
 		nodes:          map[string]*corev1.Node{},
+		quotas:         map[string][]corev1.ResourceQuota{},
 		events:         map[string][]eventsv1.Event{},
 		nsEvents:       map[string][]eventsv1.Event{},
 		netpols:        map[string][]networkingv1.NetworkPolicy{},
@@ -74,6 +76,7 @@ func (f *FakeClient) AddSecret(s *corev1.Secret)                          { f.se
 func (f *FakeClient) AddPVC(pvc *corev1.PersistentVolumeClaim)            { f.pvcs[nsn(pvc.Namespace, pvc.Name)] = pvc }
 func (f *FakeClient) AddNamespace(ns *corev1.Namespace)                   { f.namespaces[ns.Name] = ns }
 func (f *FakeClient) AddNode(n *corev1.Node)                              { f.nodes[n.Name] = n }
+func (f *FakeClient) AddResourceQuota(q *corev1.ResourceQuota)            { f.quotas[q.Namespace] = append(f.quotas[q.Namespace], *q) }
 func (f *FakeClient) AddLogs(ns, pod, container, text string)             { f.logs[nsn(ns, pod)+"/"+container] = text }
 
 // AddEventFor adds an event filed against a specific object.
@@ -220,6 +223,10 @@ func (f *FakeClient) ListServices(ctx context.Context, ns string) ([]corev1.Serv
 
 func (f *FakeClient) ListNetworkPolicies(ctx context.Context, ns string) ([]networkingv1.NetworkPolicy, error) {
 	return f.netpols[ns], nil
+}
+
+func (f *FakeClient) ListResourceQuotas(ctx context.Context, ns string) ([]corev1.ResourceQuota, error) {
+	return f.quotas[ns], nil
 }
 
 func (f *FakeClient) ListNodes(ctx context.Context) ([]corev1.Node, error) {

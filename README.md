@@ -3,6 +3,7 @@
 > A kubectl-native diagnostic CLI that turns broken Kubernetes workload symptoms into ranked root-cause findings, evidence, and the exact next command to run.
 
 [![CI](https://github.com/khvedela/triage/actions/workflows/ci.yml/badge.svg)](https://github.com/khvedela/triage/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/khvedela/triage)](https://github.com/khvedela/triage/releases/latest)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Go Report](https://goreportcard.com/badge/github.com/khvedela/triage)](https://goreportcard.com/report/github.com/khvedela/triage)
 
@@ -89,8 +90,11 @@ triage cluster
 # Machine-readable output
 triage pod my-pod -o json | jq '.findings[0]'
 
-# Generate a markdown incident report
+# Generate a markdown incident report for a namespace
 triage report namespace prod > triage-report.md
+
+# Generate a full cluster report
+triage report cluster > cluster-report.md
 ```
 
 ### Example output
@@ -130,8 +134,9 @@ triage report namespace prod > triage-report.md
 | `triage pod <name>`               | Diagnose a single pod                                     |
 | `triage deployment <name>`        | Diagnose a deployment and all pods under it               |
 | `triage namespace <ns>`           | Diagnose every workload in a namespace                    |
-| `triage cluster`                  | Cluster-wide checks (node conditions, recent warnings)    |
-| `triage report namespace <ns>`    | Full markdown diagnostic report                           |
+| `triage cluster`                  | Cluster-wide checks (node conditions, quota, events)      |
+| `triage report namespace <ns>`    | Full markdown diagnostic report for a namespace           |
+| `triage report cluster`           | Full markdown diagnostic report for the cluster           |
 | `triage rules list`               | List all built-in rules                                   |
 | `triage rules explain <rule-id>`  | Full docs for a specific rule                             |
 | `triage config view`              | Show resolved configuration with provenance               |
@@ -168,20 +173,22 @@ See [docs/architecture.md](docs/architecture.md) for the full design.
 
 ## Rules
 
-`triage` ships with a built-in rule set covering the most common failure modes. Each rule has a stable ID, a category, and documented evidence + remediation.
+`triage` ships with 28 built-in rules covering the most common failure modes. Each rule has a stable ID, a category, and documented evidence + remediation.
 
-Sample categories:
+| Category | Rules |
+| --- | --- |
+| **Scheduling** | Pending: insufficient resources, taint mismatch, selector mismatch, unbound PVC |
+| **Image / Registry** | ImagePullBackOff, auth failures, manifest not found |
+| **Configuration** | Missing ConfigMap/Secret, bad env key ref, bad command |
+| **Runtime / Crash** | CrashLoopBackOff, OOMKilled, init failures, immediate exec failure |
+| **Probes / Health** | Failing readiness, liveness, startup probes |
+| **Networking** | Service with no endpoints, selector mismatch, targetPort mismatch |
+| **Rollout** | Stuck deployment rollout, unavailable replicas |
+| **Resource Pressure** | Node NotReady, Memory/Disk/PID pressure, quota exhausted |
+| **Cluster** | API server latency events |
 
-- **Scheduling** — pending pods: insufficient resources, taint mismatch, selector mismatch, unbound PVC
-- **Image / Registry** — ImagePullBackOff, auth failures, manifest not found
-- **Configuration** — missing ConfigMap/Secret, bad env ref, bad command
-- **Probes / Health** — failing readiness/liveness/startup probes
-- **Crash / Runtime** — CrashLoopBackOff, OOMKilled, init failures
-- **Networking** — service with no endpoints, selector/port mismatch
-- **Rollout / Controller** — stuck deployment rollouts
-- **Resource Pressure** — node NotReady, Memory/Disk/PID pressure
-
-Full list: [docs/rules.md](docs/rules.md). Hosted reference: <https://khvedela.github.io/triage/docs/rules>. Want to add a rule? See [CONTRIBUTING.md](CONTRIBUTING.md).
+Full list: [docs/rules.md](docs/rules.md). Hosted reference: <https://khvedela.github.io/triage/docs/rules>.  
+Want to add a rule? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -211,18 +218,13 @@ All keys are also overridable via environment variables prefixed `TRIAGE_` (e.g.
 
 ## Roadmap
 
-Near-term (v0.x):
+**v0.2.0** (current): Rule set expansion — exec-format errors, service port mismatches, bad env key refs, quota exhaustion, API server latency events, `triage report cluster`, richer readiness probe sampling.
 
-- Full coverage of the rule set in [docs/rules.md](docs/rules.md)
-- Namespace and cluster-scope aggregations
-- `--diff-time` — compare cluster state at two points in time
-- Prometheus integration — incorporate metrics as evidence
+**v0.3.0**: YAML rule packs — declarative rules with CEL expressions, loadable without recompile.
 
-Longer-term:
+**v0.4.0**: Interactive mode — `triage watch pod <name>`, `--since` flag, fzf-style namespace picker.
 
-- YAML rule packs (declarative rules without recompile)
-- CRD-aware rules (Istio, cert-manager, Argo Rollouts)
-- Optional LLM-assisted explainer (pluggable, off by default)
+**v1.0.0**: Stable public API, `pkg/` promotion, Homebrew tap, container image.
 
 See [docs/roadmap.md](docs/roadmap.md) or <https://khvedela.github.io/triage/docs/roadmap>.
 

@@ -6,9 +6,9 @@ slug: /roadmap
 
 # Roadmap
 
-## v0.1.0 — First release
+## v0.1.0 — First release ✅
 
-- Core rule engine with ~23 rules covering crash/runtime, scheduling, image pull, networking, rollout, and RBAC
+- Core rule engine with 23 rules covering crash/runtime, scheduling, image pull, networking, rollout, and RBAC
 - Three output formats: text (ANSI), JSON, Markdown
 - Standalone binary (`triage`) and kubectl plugin (`kubectl-triage`)
 - `triage pod`, `triage deployment`, `triage namespace`, `triage cluster` commands
@@ -17,14 +17,16 @@ slug: /roadmap
 - GoReleaser distribution (linux/darwin/windows, amd64/arm64)
 - Krew manifest for kubectl plugin installation
 
-## v0.2.0 — Rule set expansion
+## v0.2.0 — Rule set expansion ✅
 
-- `TRG-POD-EXIT-IMMEDIATE` — container exits non-zero immediately (exec format error, missing binary)
-- `TRG-SVC-PORT-MISMATCH` — service targetPort not exposed by pod
-- `TRG-POD-BAD-ENV-REF` — configMapKeyRef/secretKeyRef pointing at a missing key
-- `TRG-POD-READINESS-FAILING` improvements: sample readiness event messages
-- Additional cluster-level rules (quota exhaustion, API server latency events)
-- `triage report namespace` — full markdown report with table of contents
+- **TRG-POD-EXIT-IMMEDIATE** — container exits immediately: exec format error, missing binary, wrong architecture (exit 126/127)
+- **TRG-SVC-PORT-MISMATCH** — service `targetPort` not exposed by selected pod's `containerPorts`
+- **TRG-POD-BAD-ENV-REF** — `configMapKeyRef` / `secretKeyRef` pointing at a missing key in an existing ConfigMap or Secret
+- **TRG-CLUSTER-QUOTA-EXHAUSTED** — namespace ResourceQuota at ≥95% (High) or 100% (Critical)
+- **TRG-CLUSTER-APISERVER-LATENCY** — Warning events indicating API server / etcd latency
+- `triage report cluster` fully implemented (was a stub)
+- Markdown reports now include a table of contents with anchor links
+- **TRG-POD-READINESS-FAILING** improvement: samples up to 3 distinct recent event messages per container
 
 ## v0.3.0 — YAML rule packs (external rules)
 

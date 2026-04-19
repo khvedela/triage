@@ -44,6 +44,7 @@ type ResourceCache struct {
 	rsLists         map[string]listEntry[appsv1.ReplicaSet]
 	svcLists        map[string]listEntry[corev1.Service]
 	netpolLists     map[string]listEntry[networkingv1.NetworkPolicy]
+	quotaLists      map[string]listEntry[corev1.ResourceQuota]
 	nodeList        *listEntry[corev1.Node]
 	eventFor        map[string]listEntry[eventsv1.Event] // key: kind|ns|name
 	eventInNS       map[string]listEntry[eventsv1.Event] // key: namespace ("" = all)
@@ -118,6 +119,7 @@ func NewResourceCache(client Interface, logger logr.Logger) *ResourceCache {
 		rsLists:     map[string]listEntry[appsv1.ReplicaSet]{},
 		svcLists:    map[string]listEntry[corev1.Service]{},
 		netpolLists: map[string]listEntry[networkingv1.NetworkPolicy]{},
+		quotaLists:  map[string]listEntry[corev1.ResourceQuota]{},
 		eventFor:    map[string]listEntry[eventsv1.Event]{},
 		eventInNS:   map[string]listEntry[eventsv1.Event]{},
 	}
@@ -434,6 +436,20 @@ func (c *ResourceCache) ListNetworkPolicies(ctx context.Context, ns string) ([]n
 	items, err := c.client.ListNetworkPolicies(ctx, ns)
 	c.mu.Lock()
 	c.netpolLists[ns] = listEntry[networkingv1.NetworkPolicy]{items: items, err: err}
+	c.mu.Unlock()
+	return items, err
+}
+
+func (c *ResourceCache) ListResourceQuotas(ctx context.Context, ns string) ([]corev1.ResourceQuota, error) {
+	c.mu.Lock()
+	if e, ok := c.quotaLists[ns]; ok {
+		c.mu.Unlock()
+		return e.items, e.err
+	}
+	c.mu.Unlock()
+	items, err := c.client.ListResourceQuotas(ctx, ns)
+	c.mu.Lock()
+	c.quotaLists[ns] = listEntry[corev1.ResourceQuota]{items: items, err: err}
 	c.mu.Unlock()
 	return items, err
 }
